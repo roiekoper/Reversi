@@ -1,0 +1,68 @@
+body {
+    background-color: black;
+}
+
+h1, h2 {
+    text-align: center;
+    color: white;
+}
+
+.games-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game-container {
+    display: inline-block;
+}
+
+.board {
+    display: grid;
+    justify-items: stretch;
+    align-items: stretch;
+    grid-gap: 5px;
+    border-radius: 5px;
+}
+
+.time-container, .player-container {
+    display: flex;
+    justify-content: start;
+}
+
+.time-title, .player-title {
+    margin-right: 10px;
+}
+
+.square {
+    width: 60px;
+    height: 60px;
+    background-color: brown;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    background-color: black;
+    box-shadow: 0 3px 8px rgba(45, 45, 45, 0.96), inset 0 2px 3px #4e4e4e;
+    animation-name: circleFadeIn;
+    animation-duration: 1s;
+}
+
+.square:hover {
+    background-color: lightgray;
+}
+
+@keyframes circleFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100;
+    }
+}
