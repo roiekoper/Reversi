@@ -2,19 +2,20 @@ import Board from './board.js'
 import Timer from './timer.js'
 
 export default class Game {
-    constructor(players) {
+    constructor(players, size = 10) {
         this.id = Game.counter; // static var
         this.players = players;
         this.playerTurnCounter = 0;
         this.ended = false;
+        this.size = size;
+        this.board = null;
+        this.gameElement = null;
+        this.playerNameElement = null;
+        this.timer = null;
         Game.counter++;
 
         this.render();
         this.timer = new Timer(this.id);
-    }
-
-    static get SIZE() {
-        return 10;
     }
 
     playerClicked = (squareClickedHandler) => {
@@ -37,7 +38,8 @@ export default class Game {
         document.getElementsByClassName('games-container')[0].appendChild(gameContainer);
         this.renderPlayerContainer();
 
-        this.board = new Board(this.id, this.gameElement, Game.SIZE, this.playerClicked.bind(this))
+        this.board = new Board(this.id, this.gameElement, this.size, this.playerClicked.bind(this));
+        this.renderInitializeCircles()
     };
 
     renderPlayerContainer = () => {
@@ -56,6 +58,19 @@ export default class Game {
         playerContainer.appendChild(playerTitle);
         playerContainer.appendChild(playerNameElement);
         this.gameElement.appendChild(playerContainer)
+    };
+
+    renderInitializeCircles = () => {
+        const halfSize = this.size / 2 - 1;
+
+        for (const row of Array(2).keys()) {
+            for (const col of Array(2).keys()) {
+                const playerColor = this.players[(col + row) % 2].color;
+                this.board.squares
+                    [halfSize + row]
+                    [halfSize + col].setCircleColor(playerColor);
+            }
+        }
     };
 
     updatePlayerName = () => {
