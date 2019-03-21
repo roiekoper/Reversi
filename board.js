@@ -7,7 +7,7 @@ export default class Board {
         this.size = size;
         this.squares = [];
         this.squareClickedHandler = squareClickedHandler;
-        this.render()
+        this.render();
     }
 
     render() {
@@ -27,5 +27,19 @@ export default class Board {
         });
 
         this.gameElement.appendChild(boardElement);
-    }
+    };
+
+    calculateSquaresWithColor = (color) => {
+      let counterColor = 0;
+      this.squares.forEach(row => {
+        row.forEach(square => {
+          if (square.color == color) {counterColor++};
+        });
+      });
+      return counterColor;
+    };
+  
+    howManyEmptySquares = () => {
+      return this.calculateSquaresWithColor(null);
+    };
 }

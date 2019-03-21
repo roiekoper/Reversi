@@ -16,12 +16,37 @@ export default class Game {
 
         this.render();
         this.timer = new Timer(this.id);
+
+        // First player starts the game
+        this.getCurrentPlayer().turnStarted(this.timer.seconds);
     }
 
+    isGameEnded = () => {
+        return this.board.howManyEmptySquares() == 0;
+    };
+
+    calculateScoreForPlayer = (player) => {
+        return this.board.calculateSquaresWithColor(player.color);
+    };
+
     playerClicked = (squareClickedHandler) => {
-        squareClickedHandler(this.getCurrentPlayer().color);
-        this.playerTurnCounter++;
-        this.updatePlayerName();
+        let currentPlayer = this.getCurrentPlayer();
+        let nextPlayer = null;
+
+        // Previous player finished their turn
+        currentPlayer.turnFinished(this.calculateScoreForPlayer(currentPlayer), this.timer.seconds); //todo set real time diff
+
+        // Before moving to the next player, check if game ended
+        if (!this.isGameEnded()) {
+            // Next player starts their turn
+            this.playerTurnCounter++;
+            nextPlayer = this.getCurrentPlayer();
+            nextPlayer.turnStarted(this.timer.seconds);
+            this.updatePlayerName();
+            squareClickedHandler(nextPlayer.color);
+        } else {
+            // Game ended
+        }
     };
 
     render = () => {
@@ -79,7 +104,7 @@ export default class Game {
 
     getCurrentPlayer = () => {
         return this.players[this.playerTurnCounter % 2];
-    }
+    };
 }
 
 Game.counter = 0;
