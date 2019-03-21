@@ -13,6 +13,7 @@ export default class Square {
         squareElement.className = 'square';
         squareElement.setAttribute('data-x', this.x);
         squareElement.setAttribute('data-y', this.y);
+        squareElement.setAttribute('data-circled', 'false');
         this.squareElement = squareElement;
         squareElement.onclick = () => {
             this.squareClicked(this.squareClickedHandler.bind(this))
@@ -29,6 +30,7 @@ export default class Square {
         let circleElement = document.createElement('div');
         circleElement.className = 'circle';
         circleElement.setAttribute('style', `background-color:${color}`);
+        this.squareElement.setAttribute('data-circled', 'true');
         this.color = color;
         this.circleElement = this.squareElement.appendChild(circleElement)
     }

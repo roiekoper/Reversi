@@ -54,7 +54,7 @@ h1, h2 {
     animation-duration: 1s;
 }
 
-.square:hover {
+.square[data-circled='false']:hover {
     background-color: lightgray;
 }
 
