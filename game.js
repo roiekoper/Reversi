@@ -19,9 +19,9 @@ export default class Game {
     }
 
     playerClicked = (squareClickedHandler) => {
+        squareClickedHandler(this.getCurrentPlayer().color);
         this.playerTurnCounter++;
         this.updatePlayerName();
-        squareClickedHandler(this.getCurrentPlayer().color);
     };
 
     render = () => {

@@ -22,7 +22,7 @@ export default class Square {
     }
 
     squareClickedHandler = (color) => {
-        if(!this.squareElement)
+        if(!this.circleElement)
             this.appendCircle(color);
     };
 
