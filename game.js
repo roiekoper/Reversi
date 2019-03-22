@@ -158,8 +158,8 @@ export default class Game {
 
         const playerNameElement = document.createElement('h2');
         playerNameElement.className = 'player-name';
-        playerNameElement.textContent = this.getCurrentPlayer().name;
         this.playerNameElement = playerNameElement;
+        this.updatePlayerName();
 
         playerContainer.appendChild(playerTitle);
         playerContainer.appendChild(playerNameElement);
@@ -178,7 +178,7 @@ export default class Game {
     };
 
     updatePlayerName = () => {
-        this.playerNameElement.textContent = this.getCurrentPlayer().name;
+        this.playerNameElement.textContent = `${this.getCurrentPlayer().name} (${this.getCurrentPlayer().color})`;
     };
 
     getCurrentPlayer = () => {
