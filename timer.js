@@ -3,7 +3,7 @@ export default class Timer {
     this.seconds = 0;
     this.gameId = gameId;
     this.render();
-    setInterval(this.timeHandler.bind(this), 1000)
+    setInterval(this.timeHandler.bind(this), 1000); // tick every 1 sec
   }
 
   timeHandler = () => {

@@ -15,16 +15,24 @@ export default class Square {
         squareElement.setAttribute('data-y', this.y);
         this.squareElement = squareElement;
         squareElement.onclick = () => {
-            this.squareClicked(this.squareClickedHandler.bind(this))
+            this.squareClicked(this.squareClickedHandler.bind(this), this)
         };
         return squareElement
     }
 
+    
     squareClickedHandler = (color) => {
+        this.changeColorTo(color);
+    };
+
+    changeColorTo = (color) => {
         this.color = color;
         if(!this.circleElement)
             this.appendCircle(color);
+        else
+            this.setCircleColor(color);
     };
+    
 
     appendCircle(color) {
         let circleElement = document.createElement('div');
