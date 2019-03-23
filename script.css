@@ -54,6 +54,18 @@ h1, h2 {
     animation-duration: 1s;
 }
 
+.potential-gain {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    text-align: justify;
+    color: white;
+    opacity: 0.2;
+    font-size: 15px;
+    animation-name: circleFadeIn;
+    animation-duration: 1s;
+}
+
 .square[data-circled='false']:hover {
     background-color: lightgray;
 }

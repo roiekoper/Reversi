@@ -4,6 +4,7 @@ export default class Square {
         this.y = y;
         this.color = null;
         this.circleElement = null;
+        this.potentialGainElement = null;
         this.squareClicked = squareClicked;
         this.render()
     }
@@ -39,7 +40,7 @@ export default class Square {
         circleElement.className = 'circle';
         circleElement.setAttribute('style', `background-color:${color}`);
         this.squareElement.setAttribute('data-circled', 'true');
-        this.circleElement = this.squareElement.appendChild(circleElement)
+        this.circleElement = this.squareElement.appendChild(circleElement);
     }
 
     setCircleColor = (color) => {
@@ -47,5 +48,32 @@ export default class Square {
             this.circleElement.setAttribute('style', `background-color:${color}`);
         else
             this.appendCircle(color);
+    };
+
+
+    /* Potential gain */
+    appendPotentialGainNumber(num = 0) {
+        let potentialGainElem = document.createElement('h2');
+        potentialGainElem.className = 'potential-gain';
+        this.potentialGainElement = this.squareElement.appendChild(potentialGainElem);
+    }
+
+    setPotentialGain = (num = 0) => {
+        // Init
+        if (!this.potentialGainElement)
+            this.appendPotentialGainNumber(num);
+
+        // Hide show element
+        if (num == 0) {
+            this.potentialGainElement.style.visibility = 'hidden';
+        } else {
+            this.potentialGainElement.style.visibility = 'visible';
+        }
+        // Set font size
+        this.potentialGainElement.style.fontsize = `${Math.min(15 + num * 7, 60)}px`;
+        this.potentialGainElement.style.opacity = Math.min(0.2 * num, 1.0);
+
+        // Finally, set potential gain
+        this.potentialGainElement.innerHTML = `${num}`;
     };
 }
