@@ -26,6 +26,7 @@ export default class Game {
     }
 
     isGameEnded = () => {
+        // TODO: also check that there is at least 1 box with a valid move for current player
         return this.board.howManyEmptySquares() == 0;
     };
 
