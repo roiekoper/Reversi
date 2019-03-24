@@ -70,8 +70,8 @@ export default class Square {
             this.potentialGainElement.style.visibility = 'visible';
         }
         // Set font size
-        this.potentialGainElement.style.fontsize = `${Math.min(15 + num * 7, 60)}px`;
-        this.potentialGainElement.style.opacity = Math.min(0.2 * num, 1.0);
+        this.potentialGainElement.style.fontsize = `${Math.min(25 + num * 7, 60)}px`;
+        this.potentialGainElement.style.opacity = Math.min(0.3 * num, 1.0);
 
         // Finally, set potential gain
         this.potentialGainElement.innerHTML = `${num}`;

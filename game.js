@@ -15,7 +15,7 @@ export default class Game {
         this.timer = null;
         this.soundDiskDown = new SoundPlayer("./sounds/diskdown.mp3");
         this.soundBadMove = new SoundPlayer("./sounds/badmove.mp3");
-        this.shouldPresentPotentialGain = false; // TODO: toggle with checkbox
+        this.shouldPresentPotentialGain = true; // TODO: toggle with checkbox
         Game.counter++;
 
         this.render();

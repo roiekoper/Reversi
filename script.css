@@ -52,18 +52,22 @@ h1, h2 {
     box-shadow: 0 3px 8px rgba(45, 45, 45, 0.96), inset 0 2px 3px #4e4e4e;
     animation-name: circleFadeIn;
     animation-duration: 1s;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
 }
 
 .potential-gain {
     width: 60px;
     height: 60px;
-    text-align: center;
-    text-align: justify;
     color: white;
     opacity: 0.2;
-    font-size: 15px;
+    font-size: 25px;
     animation-name: circleFadeIn;
     animation-duration: 1s;
+    text-align: center;
+    position: absolute;
+    z-index: 2;
 }
 
 .square[data-circled='false']:hover {
