@@ -10,9 +10,11 @@ export default class Player {
         this.arrayTurnsScore = [];  // Keeps track on the score every turn
         this.isMyTrun = false;
         this.startedTurnAt = 0;
+        this.counter2DisksLeft = 0;
     }
 
     turnStarted = (timeSeconds) => {
+        this.turnCounter++;
         this.isMyTrun = true;
         this.startedTurnAt = timeSeconds;
     };
@@ -20,7 +22,22 @@ export default class Player {
     turnFinished = (score, timeSeconds) => {
         this.isMyTrun = false;
         this.currentScore = score;
+        if (score == 2) {
+            this.counter2DisksLeft++;
+        }
         this.arrayTurnsTime.push(timeSeconds - this.startedTurnAt);
         this.arrayTurnsScore.push(score);
+    };
+
+    getStatisticsAvgTimeForMove = () =>{
+        let sum = 0;
+        this.arrayTurnsTime.forEach(t => {
+            sum += t;
+        });
+        return sum / (this.arrayTurnsTime.length || 1);
+    };
+
+    getStatistics2Disks = () =>{
+        return this.counter2DisksLeft;
     };
 }
