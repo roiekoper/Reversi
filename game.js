@@ -89,7 +89,7 @@ export default class Game {
                 //     continue;
 
                 let opponentSquareObj = this.findOpponentSquaresInDirection(checkPosX, checkPosY,
-                    colorOpponent, colDirection, rowDirection);
+                    origColor, colDirection, rowDirection);
 
                 findAnyOpponentSquares = opponentSquareObj.findAnyOpponentSquares;
                 arrayMaybeDisksToColor = opponentSquareObj.arrayMaybeDisksToColor;
@@ -98,8 +98,6 @@ export default class Game {
 
                 // Now we got to a potential our color
                 if (findAnyOpponentSquares) {
-                    console.log(this.checkDirectionEndWithCorrectColor(checkPosX, checkPosY,
-                        colorOpponent, arrayMaybeDisksToColor));
                     arrayRealDisksToColor = [...this.checkDirectionEndWithCorrectColor(checkPosX, checkPosY,
                         colorOpponent, arrayMaybeDisksToColor)]
                 }
@@ -131,17 +129,16 @@ export default class Game {
         return arrayRealDisksToColor;
     };
 
-    findOpponentSquaresInDirection = (checkPosX, checkPosY, colorOpponent, colDirection, rowDirection) => {
+    findOpponentSquaresInDirection = (checkPosX, checkPosY, origColor, colDirection, rowDirection) => {
 // We will check each position, and search for the opponent color
         let findAnyOpponentSquares = false;
         let arrayMaybeDisksToColor = [];
-        !this.board.squares[checkPosX][checkPosY].isEmpty() && console.log('opponent color',this.board.squares[checkPosX][checkPosY].isOpponentColor(colorOpponent));
         while (this.board.isValidSquareLocation(checkPosX, checkPosY) &&
         !this.board.squares[checkPosX][checkPosY].isEmpty() &&
-        !this.board.squares[checkPosX][checkPosY].isOpponentColor(colorOpponent)) {
+        this.board.squares[checkPosX][checkPosY].isOpponentColor(origColor)) {
             findAnyOpponentSquares = true;
             // Keep this square for later
-            arrayMaybeDisksToColor.push(this.board.squares[checkPosX], [checkPosY]);
+            arrayMaybeDisksToColor.push(this.board.squares[checkPosX][checkPosY]);
             // Keep moving in the same direction
             checkPosX += colDirection;
             checkPosY += rowDirection;
@@ -235,7 +232,7 @@ export default class Game {
                 }
 
             } else {
-                //this.board.hidePotentialGain();
+                this.board.hidePotentialGain();
                 // Game ended
                 // TODO: present alert saying the game eneded
                 // TODO: offer to restart the game (update game counter)
