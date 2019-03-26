@@ -6,10 +6,12 @@ export default class Square {
         this.circleElement = null;
         this.potentialGainElement = null;
         this.squareClicked = squareClicked;
-        this.render()
+        this.render();
+
+        return this;
     }
 
-    render() {
+    render = () => {
         let squareElement = document.createElement('div');
         squareElement.className = 'square';
         squareElement.setAttribute('data-x', this.x);
@@ -18,30 +20,29 @@ export default class Square {
         squareElement.onclick = () => {
             this.squareClicked(this.squareClickedHandler.bind(this), this)
         };
-        return squareElement
-    }
+    };
 
-    
+
     squareClickedHandler = (color) => {
         this.changeColorTo(color);
     };
 
     changeColorTo = (color) => {
         this.color = color;
-        if(!this.circleElement)
+        if (!this.circleElement)
             this.appendCircle(color);
         else
             this.setCircleColor(color);
     };
-    
 
-    appendCircle(color) {
+
+    appendCircle = (color) => {
         let circleElement = document.createElement('div');
         circleElement.className = 'circle';
         circleElement.setAttribute('style', `background-color:${color}`);
         this.squareElement.setAttribute('data-circled', 'true');
         this.circleElement = this.squareElement.appendChild(circleElement);
-    }
+    };
 
     setCircleColor = (color) => {
         if (this.circleElement)
@@ -49,7 +50,6 @@ export default class Square {
         else
             this.appendCircle(color);
     };
-
 
     /* Potential gain */
     appendPotentialGainNumber(num = 0) {
@@ -64,7 +64,7 @@ export default class Square {
             this.appendPotentialGainNumber(num);
 
         // Hide show element
-        if (num == 0) {
+        if (num === 0) {
             this.potentialGainElement.style.visibility = 'hidden';
         } else {
             this.potentialGainElement.style.visibility = 'visible';
@@ -75,5 +75,13 @@ export default class Square {
 
         // Finally, set potential gain
         this.potentialGainElement.innerHTML = `${num}`;
+    };
+
+    isEmpty = () => {
+        return this.color === null;
+    };
+
+    isOpponentColor = (color) => {
+        return this.color !== color;
     };
 }

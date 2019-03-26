@@ -23,4 +23,8 @@ export default class Player {
         this.arrayTurnsTime.push(timeSeconds - this.startedTurnAt);
         this.arrayTurnsScore.push(score);
     };
+
+    colorOpponent = () => {
+        return this.color === "black" ? "white" : "black";
+    }
 }

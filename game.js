@@ -16,13 +16,22 @@ export default class Game {
         this.soundDiskDown = new SoundPlayer("./sounds/diskdown.mp3");
         this.soundBadMove = new SoundPlayer("./sounds/badmove.mp3");
         this.shouldPresentPotentialGain = true; // TODO: toggle with checkbox
+        // TODO: TIMER
+        // this.timer = new Timer(this.id);
         Game.counter++;
 
         this.render();
-        this.timer = new Timer(this.id);
+        this.board = new Board(this.id, this.gameElement, this.size, this.playerClicked.bind(this));
+        this.renderInitializeCircles();
+
+        // Player helper - shows the potential gain on every square
+        if (this.shouldPresentPotentialGain) {
+            this.showPotentialGainForPlayer(this.getCurrentPlayer());
+        }
 
         // First player starts the game
-        this.getCurrentPlayer().turnStarted(this.timer.seconds);
+        // TODO TIMER
+        // this.getCurrentPlayer().turnStarted(this.timer.seconds);
     }
 
     isGameEnded = () => {
@@ -35,85 +44,146 @@ export default class Game {
     };
 
     // Returns how many disks are going to be changed
-    placeMoveAtSqaure = (player, square, isActualMove) => {
-        let currentPlayer = player;
-        let howManyDisksWillChange = 0;
+    placeMoveAtSquare = (player, square, isActualMove) => {
         let arrayRealDisksToColor = []; // Keep track of the squares we want to change later
         let arrayMaybeDisksToColor = [];
         let origPosX = square.x;
         let origPosY = square.y;
-        let origColor = currentPlayer.color;
-        let colorOpponent = origColor == "black" ? "white" : "black";
+        let origColor = player.color;
+        let colorOpponent = player.colorOpponent();
 
-        // If current square is occuiped already - can't place a disk on it
-        if (square.color != null) {
+        // If current square is occupied already - can't place a disk on it
+        if (!square.isEmpty()) {
             return 0;
         }
 
         // We will search for opposite colored disks next to the given square.
         //  if any exists, we will check that at the end we have our own color.
         for (let rowDirection = -1; rowDirection <= 1; rowDirection++) {
-            for(let colDirection = -1; colDirection <= 1; colDirection++) {
+            for (let colDirection = -1; colDirection <= 1; colDirection++) {
                 // Prepare positions to check
                 let checkPosX = origPosX + colDirection;
                 let checkPosY = origPosY + rowDirection;
-                let flagDidFindOpponentColorAlongPath = false;
+                let findAnyOpponentSquares = false;
 
                 // Ignore current square's location
-                if (checkPosX == origPosX && origPosY == checkPosY)
-                    continue;
+                // if (checkPosX === origPosX && origPosY === checkPosY)
+                //     continue;
 
-                // We will check each position, and search for the oponent color
-                while(this.board.isLocationValidAndInColor(checkPosX, checkPosY, colorOpponent)) {
-                            flagDidFindOpponentColorAlongPath = true;
-                            // Keep this square for later
-                            arrayMaybeDisksToColor.push(this.board.getSquareAtIndex(checkPosX, checkPosY))
-                            // Keep moving in the same direction
-                            checkPosX += colDirection;
-                            checkPosY += rowDirection;
-                            
-                            
-                        }
-                // Now we got to a potentialy our color
-                if (flagDidFindOpponentColorAlongPath) {
-                    // Check if in the place where we got is our color
-                    if (this.board.isLocationValidAndInColor(checkPosX, checkPosY, origColor)) {
-                        // Yes! we have a real path
-                        arrayRealDisksToColor.push(...arrayMaybeDisksToColor);
-                    }
+                let opponentSquareObj = this.findOpponentSquaresInDirection(checkPosX, checkPosY,
+                    colorOpponent, colDirection, rowDirection);
+
+                findAnyOpponentSquares = opponentSquareObj.findAnyOpponentSquares;
+                arrayMaybeDisksToColor = opponentSquareObj.arrayMaybeDisksToColor;
+                checkPosX = opponentSquareObj.checkPosX;
+                checkPosY = opponentSquareObj.checkPosY;
+
+                // Now we got to a potential our color
+                if (findAnyOpponentSquares) {
+                    console.log(this.checkDirectionEndWithCorrectColor(checkPosX, checkPosY,
+                        colorOpponent, arrayMaybeDisksToColor));
+                    arrayRealDisksToColor = [...this.checkDirectionEndWithCorrectColor(checkPosX, checkPosY,
+                        colorOpponent, arrayMaybeDisksToColor)]
                 }
+
                 // Clear temporary disks (GC will do the job)
                 arrayMaybeDisksToColor = [];
             }
         }
-        howManyDisksWillChange = arrayRealDisksToColor.length;
-        
+
         // If it's an actual move, change the color
-        if(isActualMove) {
+        if (isActualMove) {
             arrayRealDisksToColor.forEach(square => {
                 square.changeColorTo(origColor);
             });
         }
 
-        return howManyDisksWillChange;
+        return arrayRealDisksToColor.length;
+    };
+
+    checkDirectionEndWithCorrectColor = (checkPosX, checkPosY, colorOpponent, arrayMaybeDisksToColor) => {
+        // Check if in the place where we got is our color
+        let arrayRealDisksToColor = [];
+        if (this.board.isValidSquareLocation(checkPosX, checkPosY) &&
+            !this.board.squares[checkPosX][checkPosY].isEmpty() &&
+            this.board.squares[checkPosX][checkPosY].isOpponentColor(colorOpponent)) {
+            // Yes! we have a real path
+            arrayRealDisksToColor = [...arrayMaybeDisksToColor];
+        }
+        return arrayRealDisksToColor;
+    };
+
+    findOpponentSquaresInDirection = (checkPosX, checkPosY, colorOpponent, colDirection, rowDirection) => {
+// We will check each position, and search for the opponent color
+        let findAnyOpponentSquares = false;
+        let arrayMaybeDisksToColor = [];
+        !this.board.squares[checkPosX][checkPosY].isEmpty() && console.log('opponent color',this.board.squares[checkPosX][checkPosY].isOpponentColor(colorOpponent));
+        while (this.board.isValidSquareLocation(checkPosX, checkPosY) &&
+        !this.board.squares[checkPosX][checkPosY].isEmpty() &&
+        !this.board.squares[checkPosX][checkPosY].isOpponentColor(colorOpponent)) {
+            findAnyOpponentSquares = true;
+            // Keep this square for later
+            arrayMaybeDisksToColor.push(this.board.squares[checkPosX], [checkPosY]);
+            // Keep moving in the same direction
+            checkPosX += colDirection;
+            checkPosY += rowDirection;
+        }
+
+        return {findAnyOpponentSquares, arrayMaybeDisksToColor, checkPosX, checkPosY};
     };
 
     isAllowedToPlaceDisk = (square) => {
-        let currentPlayer = this.getCurrentPlayer();
-        return this.board.isSquareEmpty(square) && this.placeMoveAtSqaure(currentPlayer, square, false) > 0;
+        return square.isEmpty() &&
+            this.currentPlayerClickedNearDisks(square);
+    };
+
+    getEmptySquaresAround = ({x, y}) => {
+        let isValid = false;
+        let checkPosX;
+        let checkPosY;
+        let emptySquaresAround = {};
+
+        for (let rowDirection = -1; !isValid && rowDirection <= 1; rowDirection++) {
+            for (let colDirection = -1; !isValid && colDirection <= 1; colDirection++) {
+                checkPosX = x + colDirection;
+                checkPosY = y + rowDirection;
+
+                if (this.board.isValidSquareLocation(checkPosX, checkPosY) &&
+                    this.board.squares[checkPosX][checkPosY].isEmpty())
+                    emptySquaresAround[`${checkPosX},${checkPosY}`] = this.board.squares[checkPosX][checkPosY]
+
+            }
+        }
+        return Object.values(emptySquaresAround);
+    };
+
+    currentPlayerClickedNearDisks = ({x, y}) => {
+        let isValid = false;
+        let checkPosX;
+        let checkPosY;
+
+        for (let rowDirection = -1; !isValid && rowDirection <= 1; rowDirection++) {
+            for (let colDirection = -1; !isValid && colDirection <= 1; colDirection++) {
+                checkPosX = x + colDirection;
+                checkPosY = y + rowDirection;
+                isValid = this.board.isValidSquareLocation(checkPosX, checkPosY) &&
+                    !this.board.squares[checkPosX][checkPosY].isEmpty();
+
+            }
+        }
+
+        return isValid;
     };
 
     // Will iterate all squares and try to calculate gain for every potential move
     showPotentialGainForPlayer = (player) => {
-        let currentPlayer = this.getCurrentPlayer();
-        let potentialGain = 0;
-        this.board.squares.forEach(row => {
-            row.forEach(square => {
-                potentialGain = this.placeMoveAtSqaure(currentPlayer, square, false);
-                // Update square
-                square.setPotentialGain(potentialGain);
-        })});
-
+        this.board.coloredSquares.forEach(coloredSquare => {
+            this.getEmptySquaresAround(coloredSquare).forEach(emptySquare => {
+                let potentialGain = this.placeMoveAtSquare(player, emptySquare, false);
+                // Update emptySquare
+                emptySquare.setPotentialGain(potentialGain);
+            });
+        });
     };
 
     playerClicked = (squareClickedHandler, squarePressed) => {
@@ -124,26 +194,28 @@ export default class Game {
         if (this.isAllowedToPlaceDisk(squarePressed)) {
             // Yes it is, let's play it.
             this.soundDiskDown.play();
-            this.placeMoveAtSqaure(currentPlayer, squarePressed, true);    // Apply move on board (must be first because square is still nulled)
+            this.placeMoveAtSquare(currentPlayer, squarePressed, true);    // Apply move on board (must be first because square is still nulled)
             squareClickedHandler(currentPlayer.color);                      // Set current pressed square color
-            
-            
+
+
             // Previous player finished their turn
-            currentPlayer.turnFinished(this.calculateScoreForPlayer(currentPlayer), this.timer.seconds);
+            // TODO TIMER
+            // currentPlayer.turnFinished(this.calculateScoreForPlayer(currentPlayer), this.timer.seconds);
 
             // Before moving to the next player, check if game ended
             if (!this.isGameEnded()) {
                 // Next player starts their turn
                 this.playerTurnCounter++;
                 nextPlayer = this.getCurrentPlayer();
-                nextPlayer.turnStarted(this.timer.seconds);
+                // TODO TIMER
+                // nextPlayer.turnStarted(this.timer.seconds);
                 this.updatePlayerName();
 
                 // Player helper - shows the potential gain on every square
                 if (this.shouldPresentPotentialGain) {
                     this.showPotentialGainForPlayer(nextPlayer);
                 }
-                
+
             } else {
                 // Game ended
                 // TODO: present alert saying the game eneded
@@ -169,9 +241,6 @@ export default class Game {
 
         document.getElementsByClassName('games-container')[0].appendChild(gameContainer);
         this.renderPlayerContainer();
-
-        this.board = new Board(this.id, this.gameElement, this.size, this.playerClicked.bind(this));
-        this.renderInitializeCircles()
     };
 
     renderPlayerContainer = () => {
@@ -199,6 +268,7 @@ export default class Game {
             for (const col of Array(2).keys()) {
                 const playerColor = this.players[(col + row) % 2].color;
                 this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
+                this.board.coloredSquares = [...this.board.coloredSquares, this.board.squares[halfSize + row][halfSize + col]]
             }
         }
     };
