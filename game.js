@@ -35,8 +35,26 @@ export default class Game {
     }
 
     isGameEnded = () => {
-        // TODO: also check that there is at least 1 box with a valid move for current player
-        return this.board.howManyEmptySquares() == 0;
+        let isGameEnded = false;
+
+        // No more empty squares left
+        if (this.board.howManyEmptySquares() == 0){
+            return true;
+        }
+
+        // Check that there is at least 1 box with a valid move for at least one player
+        for (let playerIndex = 0; playerIndex < this.players.length; playerIndex++) {
+            for (let rowIndex = 0; rowIndex < this.board.squares.length; rowIndex++) {
+                for (let colIndex = 0; colIndex < this.board.squares[rowIndex].length; colIndex++) {
+                    if (this.placeMoveAtSqaure(this.players[playerIndex], this.board.squares[rowIndex][colIndex], false) > 0) {
+                        // Player has at least this move, game hasn't ended yet
+                        return false;
+                    }
+                }
+            }
+        }
+        // No legal moves left, game ended
+        return true;
     };
 
     calculateScoreForPlayer = (player) => {
@@ -217,6 +235,7 @@ export default class Game {
                 }
 
             } else {
+                //this.board.hidePotentialGain();
                 // Game ended
                 // TODO: present alert saying the game eneded
                 // TODO: offer to restart the game (update game counter)
@@ -270,6 +289,46 @@ export default class Game {
                 this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
                 this.board.coloredSquares = [...this.board.coloredSquares, this.board.squares[halfSize + row][halfSize + col]]
             }
+        }
+    };
+
+    // Will iterate all squares and try to calculate gain for every potential move
+    // Return the total potential gain for player
+    calculatePotentialGainForPlayer = (player, isShow=false) => {
+        let currentPlayer = this.getCurrentPlayer();
+        let potentialGain = 0;
+        let totalPotentialGain = 0;
+        this.board.squares.forEach(row => {
+            row.forEach(square => {
+                potentialGain = this.placeMoveAtSqaure(currentPlayer, square, false);
+                totalPotentialGain += potentialGain;
+                // Update square
+                if (isShow) {
+                    square.setPotentialGain(potentialGain);
+                }
+            })});
+        return totalPotentialGain;
+    };
+
+    // Must be called after verifying that game hasn't ended
+    moveTurnToNextPlayer = () => {
+        let nextPlayer = null;
+        // Next player should start their turn, but we need to check first that next player has
+        //    a valid moves
+        this.playerTurnCounter++;
+        nextPlayer = this.getCurrentPlayer();
+        if (this.calculatePotentialGainForPlayer(nextPlayer, false) == 0) {
+            // Next player has no valid move! next turn goes back to current player
+            this.playerTurnCounter--;
+            nextPlayer = this.getCurrentPlayer();
+        }
+
+        nextPlayer.turnStarted(this.timer.seconds);
+        this.updatePlayerName();
+
+        // Player helper - shows the potential gain on every square
+        if (this.shouldPresentPotentialGain) {
+            this.calculatePotentialGainForPlayer(nextPlayer, true);
         }
     };
 

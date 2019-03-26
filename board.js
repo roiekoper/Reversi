@@ -33,11 +33,21 @@ export default class Board {
         this.gameElement.appendChild(boardElement);
     };
 
+    hidePotentialGain = () => {
+      this.squares.forEach(row => {
+        row.forEach(square => {
+            square.setPotentialGain(0);
+          });
+        });
+      };
+
     calculateSquaresWithColor = (color) => {
       let counterColor = 0;
       this.squares.forEach(row => {
         row.forEach(square => {
-          if (square.color == color) {counterColor++};
+          if (square.color == color) {
+            counterColor++
+          }
         });
       });
       return counterColor;
