@@ -16,6 +16,7 @@ export default class Game {
         this.soundDiskDown = new SoundPlayer("./sounds/diskdown.mp3");
         this.soundBadMove = new SoundPlayer("./sounds/badmove.mp3");
         this.shouldPresentPotentialGain = true; // TODO: toggle with checkbox
+        this.winnerPlayer = null;
         // TODO: TIMER
         // this.timer = new Timer(this.id);
         Game.counter++;
@@ -35,34 +36,22 @@ export default class Game {
     }
 
     isGameEnded = () => {
-        let isGameEnded = false;
+        let currentPlayer = this.getCurrentPlayer();
+        let rivalPlayer = this.getRivalPlayer();
 
         // No more empty squares left
-        if (this.board.howManyEmptySquares() == 0){
+        if (this.board.howManyEmptySquares() === 0) {
             return true;
         }
 
         // Check that there is at least 1 box with a valid move for at least one player
-        for (let playerIndex = 0; playerIndex < this.players.length; playerIndex++) {
-            for (let rowIndex = 0; rowIndex < this.board.squares.length; rowIndex++) {
-                for (let colIndex = 0; colIndex < this.board.squares[rowIndex].length; colIndex++) {
-                    if (this.placeMoveAtSqaure(this.players[playerIndex], this.board.squares[rowIndex][colIndex], false) > 0) {
-                        // Player has at least this move, game hasn't ended yet
-                        return false;
-                    }
-                }
-            }
-        }
         // No legal moves left, game ended
-        return true;
-    };
-
-    calculateScoreForPlayer = (player) => {
-        return this.board.calculateSquaresWithColor(player.color);
+        return currentPlayer.potentialSquareMoves.length > 0 &&
+            rivalPlayer.potentialSquareMoves.length > 0;
     };
 
     // Returns how many disks are going to be changed
-    placeMoveAtSquare = (player, square, isActualMove) => {
+    placeMoveAtSquare = (player, square) => {
         let arrayRealDisksToColor = []; // Keep track of the squares we want to change later
         let arrayMaybeDisksToColor = [];
         let origPosX = square.x;
@@ -74,10 +63,6 @@ export default class Game {
         if (!square.isEmpty()) {
             return 0;
         }
-
-        console.log('---');
-        console.log('origPosX',origPosX);
-        console.log('origPosY',origPosY);
 
         // We will search for opposite colored disks next to the given square.
         //  if any exists, we will check that at the end we have our own color.
@@ -110,15 +95,8 @@ export default class Game {
                 arrayMaybeDisksToColor = [];
             }
         }
-        console.log('---');
 
-        // If it's an actual move, change the color
-        if (isActualMove) {
-            arrayRealDisksToColor.forEach(square => {
-                square.changeColorTo(origColor);
-            });
-        }
-
+        player.potentialSquareMoves[`${square.x},${square.y}`] = arrayRealDisksToColor;
         return arrayRealDisksToColor.length;
     };
 
@@ -157,6 +135,14 @@ export default class Game {
             this.currentPlayerClickedNearDisks(square);
     };
 
+    currentPlayerClickOnPotentialMove = (potentialSquareMoves) => {
+        let currentPlayerColor = this.getCurrentPlayer().color;
+
+        potentialSquareMoves.forEach(square => {
+            square.changeColorTo(currentPlayerColor);
+        });
+    };
+
     getEmptySquaresAround = ({x, y}) => {
         let isValid = false;
         let checkPosX;
@@ -174,7 +160,7 @@ export default class Game {
 
             }
         }
-        return Object.values(emptySquaresAround);
+        return [...new Set(Object.values(emptySquaresAround))];
     };
 
     currentPlayerClickedNearDisks = ({x, y}) => {
@@ -197,11 +183,16 @@ export default class Game {
 
     // Will iterate all squares and try to calculate gain for every potential move
     showPotentialGainForPlayer = (player) => {
+        let squareAppends = {}; // there is squares find same empty squares around
         this.board.coloredSquares.forEach(coloredSquare => {
             this.getEmptySquaresAround(coloredSquare).forEach(emptySquare => {
-                let potentialGain = this.placeMoveAtSquare(player, emptySquare, false);
-                // Update emptySquare
-                emptySquare.setPotentialGain(potentialGain);
+                if(!squareAppends[`${emptySquare.x},${emptySquare.y}`]) {
+                    let potentialGain = this.placeMoveAtSquare(player, emptySquare);
+
+                    // Update emptySquare
+                    emptySquare.appendPotentialGainNumber(potentialGain);
+                    squareAppends[`${emptySquare.x},${emptySquare.y}`] = true;
+                }
             });
         });
     };
@@ -214,9 +205,10 @@ export default class Game {
         if (this.isAllowedToPlaceDisk(squarePressed)) {
             // Yes it is, let's play it.
             this.soundDiskDown.play();
-            this.placeMoveAtSquare(currentPlayer, squarePressed, true);    // Apply move on board (must be first because square is still nulled)
-            squareClickedHandler(currentPlayer.color);                      // Set current pressed square color
+            this.placeMoveAtSquare(currentPlayer, squarePressed);    // Apply move on board (must be first because square is still nulled)
+            this.currentPlayerClickOnPotentialMove(currentPlayer.potentialSquareMoves[`${squarePressed.x},${squarePressed.y}`]);
 
+            squareClickedHandler(currentPlayer.color);                      // Set current pressed square color
 
             // Previous player finished their turn
             // TODO TIMER
@@ -227,9 +219,14 @@ export default class Game {
                 // Next player starts their turn
                 this.playerTurnCounter++;
                 nextPlayer = this.getCurrentPlayer();
+
+                this.board.hidePotentialGainElements();
                 // TODO TIMER
                 // nextPlayer.turnStarted(this.timer.seconds);
                 this.updatePlayerName();
+                //this.appendPotentialGainNumber();
+
+                this.board.coloredSquares.push(squarePressed);
 
                 // Player helper - shows the potential gain on every square
                 if (this.shouldPresentPotentialGain) {
@@ -296,7 +293,7 @@ export default class Game {
 
     // Will iterate all squares and try to calculate gain for every potential move
     // Return the total potential gain for player
-    calculatePotentialGainForPlayer = (player, isShow=false) => {
+    calculatePotentialGainForPlayer = (player, isShow = false) => {
         let currentPlayer = this.getCurrentPlayer();
         let potentialGain = 0;
         let totalPotentialGain = 0;
@@ -308,7 +305,8 @@ export default class Game {
                 if (isShow) {
                     square.setPotentialGain(potentialGain);
                 }
-            })});
+            })
+        });
         return totalPotentialGain;
     };
 
@@ -340,6 +338,10 @@ export default class Game {
 
     getCurrentPlayer = () => {
         return this.players[this.playerTurnCounter % 2];
+    };
+
+    getRivalPlayer = () => {
+        return this.players[this.playerTurnCounter % 2 + 1];
     };
 }
 

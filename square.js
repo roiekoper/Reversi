@@ -1,9 +1,11 @@
 export default class Square {
-    constructor(x, y, squareClicked) {
+    constructor(y, x, squareClicked) {
         this.x = x;
         this.y = y;
         this.color = null;
         this.circleElement = null;
+        this.potentialGainElement = null;
+        this.squareElement = null;
         this.potentialGainElement = null;
         this.squareClicked = squareClicked;
         this.render();
@@ -52,29 +54,20 @@ export default class Square {
     };
 
     /* Potential gain */
-    appendPotentialGainNumber(num = 0) {
-        let potentialGainElem = document.createElement('h2');
-        potentialGainElem.className = 'potential-gain';
-        this.potentialGainElement = this.squareElement.appendChild(potentialGainElem);
-    }
+    appendPotentialGainNumber = (num) => {
+        const styleNum = num + 1; // skip zero to show zero on screen
+        this.potentialGainElement = document.createElement('h2');
+        this.potentialGainElement.className = 'potential-gain';
+        this.squareElement.appendChild(this.potentialGainElement);
 
-    setPotentialGain = (num = 0) => {
-        // Init
-        if (!this.potentialGainElement)
-            this.appendPotentialGainNumber(num);
-
-        // Hide show element
-        if (num === 0) {
-            this.potentialGainElement.style.visibility = 'hidden';
-        } else {
-            this.potentialGainElement.style.visibility = 'visible';
-        }
         // Set font size
-        this.potentialGainElement.style.fontsize = `${Math.min(25 + num * 7, 60)}px`;
-        this.potentialGainElement.style.opacity = Math.min(0.3 * num, 1.0);
-
-        // Finally, set potential gain
+        this.potentialGainElement.style.fontsize = `${Math.min(25 + styleNum * 7, 60)}px`;
+        this.potentialGainElement.style.opacity = Math.min(0.2 * styleNum, 1.0);
         this.potentialGainElement.innerHTML = `${num}`;
+    };
+
+    removePotentialGainElement = () => {
+        this.potentialGainElement && this.potentialGainElement.remove();
     };
 
     isEmpty = () => {

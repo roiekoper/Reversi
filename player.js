@@ -11,6 +11,7 @@ export default class Player {
         this.isMyTrun = false;
         this.startedTurnAt = 0;
         this.counter2DisksLeft = 0;
+        this.potentialSquareMoves = {};
     }
 
     turnStarted = (timeSeconds) => {

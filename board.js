@@ -45,7 +45,7 @@ export default class Board {
       let counterColor = 0;
       this.squares.forEach(row => {
         row.forEach(square => {
-          if (square.color == color) {
+          if (square.color === color) {
             counterColor++
           }
         });
@@ -61,5 +61,11 @@ export default class Board {
       let row = y;
       let col = x;
       return row >= 0 && col >= 0 && row < this.size && col < this.size;
+    };
+
+    hidePotentialGainElements = () => {
+        this.squares.flat().forEach((square) => {
+           square.removePotentialGainElement();
+        });
     };
 }
