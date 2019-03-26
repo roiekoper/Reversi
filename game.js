@@ -75,6 +75,10 @@ export default class Game {
             return 0;
         }
 
+        console.log('---');
+        console.log('origPosX',origPosX);
+        console.log('origPosY',origPosY);
+
         // We will search for opposite colored disks next to the given square.
         //  if any exists, we will check that at the end we have our own color.
         for (let rowDirection = -1; rowDirection <= 1; rowDirection++) {
@@ -106,6 +110,7 @@ export default class Game {
                 arrayMaybeDisksToColor = [];
             }
         }
+        console.log('---');
 
         // If it's an actual move, change the color
         if (isActualMove) {
