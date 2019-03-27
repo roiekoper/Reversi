@@ -12,6 +12,7 @@ export default class Player {
         this.startedTurnAt = 0;
         this.counter2DisksLeft = 0;
         this.potentialSquareMoves = {};
+        this.trunedDisksSquares = [];
     }
 
     turnStarted = (timeSeconds) => {

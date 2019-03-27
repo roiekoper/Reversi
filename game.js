@@ -1,6 +1,7 @@
 import Board from './board.js'
 import Timer from './timer.js'
 import SoundPlayer from './utils.js'
+import popUp from './popUp.js'
 
 export default class Game {
     constructor(players, size = 10) {
@@ -18,7 +19,7 @@ export default class Game {
         this.shouldPresentPotentialGain = true; // TODO: toggle with checkbox
         this.winnerPlayer = null;
         // TODO: TIMER
-        // this.timer = new Timer(this.id);
+        this.timer = null;
         Game.counter++;
 
         this.render();
@@ -30,10 +31,45 @@ export default class Game {
             this.showPotentialGainForPlayer(this.getCurrentPlayer());
         }
 
+        this.timer = new Timer(this.id);
+
         // First player starts the game
         // TODO TIMER
         // this.getCurrentPlayer().turnStarted(this.timer.seconds);
     }
+
+    render = () => {
+        let gameElement = document.createElement('div');
+        gameElement['data-id'] = this.id;
+        gameElement.className = 'game';
+        gameElement.setAttribute('id', `game-${this.id}`);
+        this.gameElement = gameElement;
+
+        const gameContainer = document.createElement('div');
+        gameContainer.className = 'game-container';
+        gameContainer.appendChild(gameElement);
+
+        document.getElementsByClassName('games-container')[0].appendChild(gameContainer);
+        this.renderPlayerContainer();
+    };
+
+    reset = (popup) => {
+        this.board.destroy();
+        this.board = new Board(this.id, this.gameElement, this.size, this.playerClicked.bind(this));
+        this.renderInitializeCircles();
+        this.winnerPlayer = null;
+        this.timer.reset();
+        this.ended = false;
+        this.playerTurnCounter = 0;
+        this.updatePlayerName();
+
+        if (this.shouldPresentPotentialGain) {
+            this.showPotentialGainForPlayer(this.getCurrentPlayer());
+        }
+
+        popup.destroy();
+    };
+
 
     isGameEnded = () => {
         let currentPlayer = this.getCurrentPlayer();
@@ -41,6 +77,17 @@ export default class Game {
 
         // No more empty squares left
         if (this.board.howManyEmptySquares() === 0) {
+            this.setWinnerPlayerWithMoreDisks();
+            return true;
+        }
+
+        if (this.board.calculateSquaresWithColor(currentPlayer.color) === this.board.coloredSquares.length) {
+            this.winnerPlayer = currentPlayer;
+            return true;
+        }
+
+        if (this.board.calculateSquaresWithColor(rivalPlayer.color) === this.board.coloredSquares.length) {
+            this.winnerPlayer = rivalPlayer;
             return true;
         }
 
@@ -48,6 +95,49 @@ export default class Game {
         // No legal moves left, game ended
         return currentPlayer.potentialSquareMoves.length > 0 &&
             rivalPlayer.potentialSquareMoves.length > 0;
+    };
+
+    renderPlayerContainer = () => {
+        const playerContainer = document.createElement('div');
+        playerContainer.className = 'player-container';
+
+        const playerTitle = document.createElement('h2');
+        playerTitle.className = 'player-title';
+        playerTitle.textContent = 'Player:';
+
+        const playerNameElement = document.createElement('h2');
+        playerNameElement.className = 'player-name';
+        this.playerNameElement = playerNameElement;
+        this.updatePlayerName();
+
+        playerContainer.appendChild(playerTitle);
+        playerContainer.appendChild(playerNameElement);
+        this.gameElement.appendChild(playerContainer)
+    };
+
+    renderInitializeCircles = () => {
+        const halfSize = this.size / 2 - 1;
+
+        for (const row of Array(2).keys()) {
+            for (const col of Array(2).keys()) {
+                const playerColor = this.players[(col + row) % 2].color;
+                this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
+                this.board.coloredSquares = [...this.board.coloredSquares, this.board.squares[halfSize + row][halfSize + col]]
+            }
+        }
+    };
+
+    setWinnerPlayerWithMoreDisks = () => {
+        let currentPlayer = this.getCurrentPlayer();
+        let rivalPlayer = this.getRivalPlayer();
+        let currentPlayerTurnedDisk = currentPlayer.trunedDisksSquares;
+        let rivalPlayerTurnedDisk = rivalPlayer.trunedDisksSquares;
+
+        if (currentPlayerTurnedDisk > rivalPlayerTurnedDisk)
+            this.winnerPlayer = currentPlayer;
+        else if (rivalPlayerTurnedDisk > currentPlayerTurnedDisk)
+            this.winnerPlayer = rivalPlayer;
+        this.winnerPlayer = null;
     };
 
     // Returns how many disks are going to be changed
@@ -186,7 +276,7 @@ export default class Game {
         let squareAppends = {}; // there is squares find same empty squares around
         this.board.coloredSquares.forEach(coloredSquare => {
             this.getEmptySquaresAround(coloredSquare).forEach(emptySquare => {
-                if(!squareAppends[`${emptySquare.x},${emptySquare.y}`]) {
+                if (!squareAppends[`${emptySquare.x},${emptySquare.y}`]) {
                     let potentialGain = this.placeMoveAtSquare(player, emptySquare);
 
                     // Update emptySquare
@@ -202,92 +292,58 @@ export default class Game {
         let nextPlayer = null;
 
         // Is it legal move?
-        if (this.isAllowedToPlaceDisk(squarePressed)) {
+        if (this.isAllowedToPlaceDisk(squarePressed) && !this.ended) {
             // Yes it is, let's play it.
+            this.board.coloredSquares.push(squarePressed);
             this.soundDiskDown.play();
             this.placeMoveAtSquare(currentPlayer, squarePressed);    // Apply move on board (must be first because square is still nulled)
-            this.currentPlayerClickOnPotentialMove(currentPlayer.potentialSquareMoves[`${squarePressed.x},${squarePressed.y}`]);
+            let potentialSquares = currentPlayer.potentialSquareMoves[`${squarePressed.x},${squarePressed.y}`];
+            this.currentPlayerClickOnPotentialMove(potentialSquares);
 
             squareClickedHandler(currentPlayer.color);                      // Set current pressed square color
 
+            currentPlayer.trunedDisksSquares = [...currentPlayer.trunedDisksSquares, potentialSquares];
             // Previous player finished their turn
             // TODO TIMER
             // currentPlayer.turnFinished(this.calculateScoreForPlayer(currentPlayer), this.timer.seconds);
 
-            // Before moving to the next player, check if game ended
-            if (!this.isGameEnded()) {
-                // Next player starts their turn
-                this.playerTurnCounter++;
-                nextPlayer = this.getCurrentPlayer();
+            // Next player starts their turn
+            this.playerTurnCounter++;
+            nextPlayer = this.getCurrentPlayer();
 
-                this.board.hidePotentialGainElements();
-                // TODO TIMER
-                // nextPlayer.turnStarted(this.timer.seconds);
-                this.updatePlayerName();
-                //this.appendPotentialGainNumber();
+            this.board.hidePotentialGainElements();
+            // TODO TIMER
+            // nextPlayer.turnStarted(this.timer.seconds);
+            this.updatePlayerName();
+            //this.appendPotentialGainNumber();
 
-                this.board.coloredSquares.push(squarePressed);
-
-                // Player helper - shows the potential gain on every square
-                if (this.shouldPresentPotentialGain) {
-                    this.showPotentialGainForPlayer(nextPlayer);
-                }
-
-            } else {
-                this.board.hidePotentialGain();
-                // Game ended
-                // TODO: present alert saying the game eneded
-                // TODO: offer to restart the game (update game counter)
+            // Player helper - shows the potential gain on every square
+            if (this.shouldPresentPotentialGain) {
+                this.showPotentialGainForPlayer(nextPlayer);
             }
+
         } else {
             // No, it's not a legal move, don't change turns
             this.soundBadMove.play();
-
         }
-    };
 
-    render = () => {
-        let gameElement = document.createElement('div');
-        gameElement['data-id'] = this.id;
-        gameElement.className = 'game';
-        gameElement.setAttribute('id', `game-${this.id}`);
-        this.gameElement = gameElement;
 
-        const gameContainer = document.createElement('div');
-        gameContainer.className = 'game-container';
-        gameContainer.appendChild(gameElement);
+        // Check again if the game ended after the last turn
+        if (this.isGameEnded()) {
+            this.board.hidePotentialGainElements();
+            this.ended = true;
 
-        document.getElementsByClassName('games-container')[0].appendChild(gameContainer);
-        this.renderPlayerContainer();
-    };
+            this.timer.pause();
+            new popUp(
+                this.gameElement,
+                `<p>The game ended! <br> the winner is ${this.winnerPlayer.name}</p>`,
+                'test',
+                this.reset
+            );
 
-    renderPlayerContainer = () => {
-        const playerContainer = document.createElement('div');
-        playerContainer.className = 'player-container';
-
-        const playerTitle = document.createElement('h2');
-        playerTitle.className = 'player-title';
-        playerTitle.textContent = 'Player:';
-
-        const playerNameElement = document.createElement('h2');
-        playerNameElement.className = 'player-name';
-        this.playerNameElement = playerNameElement;
-        this.updatePlayerName();
-
-        playerContainer.appendChild(playerTitle);
-        playerContainer.appendChild(playerNameElement);
-        this.gameElement.appendChild(playerContainer)
-    };
-
-    renderInitializeCircles = () => {
-        const halfSize = this.size / 2 - 1;
-
-        for (const row of Array(2).keys()) {
-            for (const col of Array(2).keys()) {
-                const playerColor = this.players[(col + row) % 2].color;
-                this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
-                this.board.coloredSquares = [...this.board.coloredSquares, this.board.squares[halfSize + row][halfSize + col]]
-            }
+            // Game ended
+            // TODO: present alert saying the game eneded
+            // TODO: offer to restart the game (update game counter)
         }
     };
 
@@ -341,7 +397,7 @@ export default class Game {
     };
 
     getRivalPlayer = () => {
-        return this.players[this.playerTurnCounter % 2 + 1];
+        return this.players[(this.playerTurnCounter + 1) % 2];
     };
 }
 

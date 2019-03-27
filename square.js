@@ -4,7 +4,6 @@ export default class Square {
         this.y = y;
         this.color = null;
         this.circleElement = null;
-        this.potentialGainElement = null;
         this.squareElement = null;
         this.potentialGainElement = null;
         this.squareClicked = squareClicked;

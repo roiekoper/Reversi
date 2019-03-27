@@ -15,10 +15,10 @@ export default class Board {
     }
 
     render() {
-        const boardElement = document.createElement('div');
-        boardElement['data-id'] = this.id;
-        boardElement.className = 'board';
-        boardElement.style = `grid-template-columns: repeat(${this.size}, 60px);`;
+        this.boardElement = document.createElement('div');
+        this.boardElement['data-id'] = this.id;
+        this.boardElement.className = 'board';
+        this.boardElement.style = `grid-template-columns: repeat(${this.size}, 60px);`;
 
         Array.from({length: this.size}, (_, row) => {
             this.squares[row] = [];
@@ -26,23 +26,20 @@ export default class Board {
                 const square = new Square(col, row, this.squareClickedHandler);
                 this.squares[row][col] = square;
 
-                boardElement.appendChild(square.squareElement)
+                this.boardElement.appendChild(square.squareElement)
             })
         });
 
-        this.gameElement.appendChild(boardElement);
+        this.gameElement.appendChild(this.boardElement);
     };
 
-    hidePotentialGain = () => {
-      this.squares.forEach(row => {
-        row.forEach(square => {
-            square.setPotentialGain(0);
-          });
-        });
-      };
+    destroy = () => {
+        this.boardElement.remove();
+    };
 
     calculateSquaresWithColor = (color) => {
       let counterColor = 0;
+
       this.squares.forEach(row => {
         row.forEach(square => {
           if (square.color === color) {
@@ -50,6 +47,7 @@ export default class Board {
           }
         });
       });
+
       return counterColor;
     };
   
