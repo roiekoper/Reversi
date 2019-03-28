@@ -21,7 +21,7 @@ export default class statistics {
         playTurnCounterContainerElement.className = 'label-container';
         let playTurnCounterElementLabel = document.createElement('h3');
         playTurnCounterElementLabel.className = 'label';
-        playTurnCounterElementLabel.innerHTML = 'Play turns:';
+        playTurnCounterElementLabel.innerHTML = 'Total turns:';
         this.playTurnCounterElement = document.createElement('h3');
         this.playTurnCounterElement.innerHTML = `${this.playTurnCounter}`;
         playTurnCounterContainerElement.appendChild(playTurnCounterElementLabel);
@@ -31,7 +31,7 @@ export default class statistics {
         avgPlayerTurnTimeContainerElement.className = 'label-container';
         let avgPlayerTurnTimeElementLabel = document.createElement('h3');
         avgPlayerTurnTimeElementLabel.className = 'label';
-        avgPlayerTurnTimeElementLabel.innerHTML = 'AVG turn time:';
+        avgPlayerTurnTimeElementLabel.innerHTML = 'Player avg response time:';
         this.avgPlayerTurnTimeElement = document.createElement('h3');
         this.avgPlayerTurnTimeElement.innerHTML = `${this.avgPlayerTurnTime}`;
         avgPlayerTurnTimeContainerElement.appendChild(avgPlayerTurnTimeElementLabel);
@@ -41,7 +41,7 @@ export default class statistics {
         playerCounter2DisksLeftContainerElement.className = 'label-container';
         let playerCounter2DisksLeftElementLabel = document.createElement('h3');
         playerCounter2DisksLeftElementLabel.className = 'label';
-        playerCounter2DisksLeftElementLabel.innerHTML = '2\'d disks left turns:';
+        playerCounter2DisksLeftElementLabel.innerHTML = 'Player 2 disks left occurrences:';
         this.playerCounter2DisksLeftElement = document.createElement('h3');
         this.playerCounter2DisksLeftElement.innerHTML = `${this.playerCounter2DisksLeft}`;
         playerCounter2DisksLeftContainerElement.appendChild(playerCounter2DisksLeftElementLabel);
@@ -51,7 +51,7 @@ export default class statistics {
         playerTurnedDiskCounterContainerElement.className = 'label-container';
         let playerTurnedDiskCounterElementLabel = document.createElement('h3');
         playerTurnedDiskCounterElementLabel.className = 'label';
-        playerTurnedDiskCounterElementLabel.innerHTML = 'Turned disks:';
+        playerTurnedDiskCounterElementLabel.innerHTML = 'Player score:';
         this.playerTurnedDiskCounterElement = document.createElement('h3');
         this.playerTurnedDiskCounterElement.innerHTML = `${this.playerTurnedDiskCounter}`;
         playerTurnedDiskCounterContainerElement.appendChild(playerTurnedDiskCounterElementLabel);

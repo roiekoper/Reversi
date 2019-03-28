@@ -1,10 +1,11 @@
 export default class popUp {
-    constructor(gameElement, message, statistics, newGameHandler) {
+    constructor(gameElement, message, statistics, newGameHandler, players) {
         this.gameElement = gameElement;
         this.message = message;
         this.statistics = statistics;
         this.element = null;
         this.newGameHandler = newGameHandler;
+        this.players = players;
 
         this.render();
     }

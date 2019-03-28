@@ -12,8 +12,18 @@ export default class Player {
         this.startedTurnAt = 0;
         this.counter2DisksLeft = 0;
         this.potentialSquareMoves = {};
-        this.trunedDisksSquares = [];
     }
+
+    reset = () => {
+        this.currentScore = 0;
+        this.turnCounter = 0;
+        this.arrayTurnsTime = [];
+        this.arrayTurnsScore = [];
+        this.isMyTrun = false;
+        this.startedTurnAt = 0;
+        this.counter2DisksLeft = 0;
+        this.potentialSquareMoves = {};
+    };
 
     turnStarted = (timeSeconds) => {
         this.turnCounter++;

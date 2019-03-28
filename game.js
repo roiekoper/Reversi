@@ -29,18 +29,15 @@ export default class Game {
         this.board = new Board(this.id, this.gameElement, this.size, this.playerClicked.bind(this));
         this.renderInitializeCircles();
 
+        this.timer = new Timer(this.id);
+        this.statistics = new statistics(this.detailsContainerElement);
+
+        // First player starts the game
+        this.getCurrentPlayer().turnStarted(this.timer.seconds);
         // Player helper - shows the potential gain on every square
         if (this.shouldPresentPotentialGain) {
             this.showPotentialGainForPlayer(this.getCurrentPlayer());
         }
-
-        this.timer = new Timer(this.id);
-
-        this.statistics = new statistics(this.detailsContainerElement);
-        this.statistics.updateValueByKey('playerTurnedDiskCounter', this.getCurrentPlayer().trunedDisksSquares.length);
-
-        // First player starts the game
-        // this.getCurrentPlayer().turnStarted(this.timer.seconds);
     }
 
     render = () => {
@@ -79,7 +76,7 @@ export default class Game {
         const playerNameElement = document.createElement('h3');
         playerNameElement.className = 'player-name';
         this.playerNameElement = playerNameElement;
-        this.updatePlayerName();
+        this.updatePlayerNameAndStatistics();
 
         playerContainer.appendChild(playerTitle);
         playerContainer.appendChild(playerNameElement);
@@ -92,7 +89,6 @@ export default class Game {
         for (const row of Array(2).keys()) {
             for (const col of Array(2).keys()) {
                 const playerColor = this.players[(col + row) % 2].color;
-                this.players[(col + row) % 2].trunedDisksSquares.push(this.board.squares[halfSize + row][halfSize + col]);
                 this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
                 this.board.coloredSquares.push(this.board.squares[halfSize + row][halfSize + col]);
             }
@@ -107,12 +103,17 @@ export default class Game {
         this.timer.reset();
         this.ended = false;
         this.playerTurnCounter = 0;
-        this.updatePlayerName();
+
+        // Reset players
+        this.players.forEach(player => {
+            player.reset();
+        });
 
         if (this.shouldPresentPotentialGain) {
             this.showPotentialGainForPlayer(this.getCurrentPlayer());
         }
 
+        this.updatePlayerNameAndStatistics();
         popup.destroy();
     };
 
@@ -123,37 +124,32 @@ export default class Game {
 
         // No more empty squares left
         if (this.board.howManyEmptySquares() === 0) {
-            this.setWinnerPlayerWithMoreDisks();
             return true;
         }
 
-        if (this.board.calculateSquaresWithColor(currentPlayer.color) === this.board.coloredSquares.length) {
-            this.winnerPlayer = currentPlayer;
-            return true;
-        }
-
-        if (this.board.calculateSquaresWithColor(rivalPlayer.color) === this.board.coloredSquares.length) {
-            this.winnerPlayer = rivalPlayer;
+        // All squares are occupied by the same color
+        if ((this.board.calculateSquaresWithColor(currentPlayer.color) === this.board.coloredSquares.length) || 
+        (this.board.calculateSquaresWithColor(rivalPlayer.color) === this.board.coloredSquares.length)) {
             return true;
         }
 
         // Check that there is at least 1 box with a valid move for at least one player
         // No legal moves left, game ended
-        return currentPlayer.potentialSquareMoves.length > 0 &&
-            rivalPlayer.potentialSquareMoves.length > 0;
+        return currentPlayer.potentialSquareMoves.length == 0;
     };
 
     setWinnerPlayerWithMoreDisks = () => {
         let currentPlayer = this.getCurrentPlayer();
         let rivalPlayer = this.getRivalPlayer();
-        let currentPlayerTurnedDisk = currentPlayer.trunedDisksSquares;
-        let rivalPlayerTurnedDisk = rivalPlayer.trunedDisksSquares;
+        let currentPlayerTurnedDisk = currentPlayer.currentScore;
+        let rivalPlayerTurnedDisk = rivalPlayer.currentScore;
 
         if (currentPlayerTurnedDisk > rivalPlayerTurnedDisk)
             this.winnerPlayer = currentPlayer;
         else if (rivalPlayerTurnedDisk > currentPlayerTurnedDisk)
             this.winnerPlayer = rivalPlayer;
-        this.winnerPlayer = null;
+        else // Tie
+            this.winnerPlayer = null;
     };
 
     // Returns how many disks are going to be changed
@@ -180,8 +176,9 @@ export default class Game {
                 let findAnyOpponentSquares = false;
 
                 // Ignore current square's location
-                // if (checkPosX === origPosX && origPosY === checkPosY)
-                //     continue;
+                if (checkPosX === origPosX && origPosY === checkPosY) {
+                    continue;
+                }
 
                 let opponentSquareObj = this.findOpponentSquaresInDirection(checkPosX, checkPosY,
                     origColor, colDirection, rowDirection);
@@ -193,8 +190,7 @@ export default class Game {
 
                 // Now we got to a potential our color
                 if (findAnyOpponentSquares) {
-                    arrayRealDisksToColor = [...arrayRealDisksToColor, ...this.checkDirectionEndWithCorrectColor(checkPosX, checkPosY,
-                        colorOpponent, arrayMaybeDisksToColor)]
+                    arrayRealDisksToColor = [...arrayRealDisksToColor, ...this.checkDirectionEndWithCurrectColor(checkPosX, checkPosY, origColor, arrayMaybeDisksToColor)]
                 }
 
                 // Clear temporary disks (GC will do the job)
@@ -206,12 +202,12 @@ export default class Game {
         return arrayRealDisksToColor.length;
     };
 
-    checkDirectionEndWithCorrectColor = (checkPosX, checkPosY, colorOpponent, arrayMaybeDisksToColor) => {
-        // Check if in the place where we got is our color
+    checkDirectionEndWithCurrectColor = (checkPosX, checkPosY, currentColor, arrayMaybeDisksToColor) => {
+        // Check if in the place where we got - is our color
         let arrayRealDisksToColor = [];
         if (this.board.isValidSquareLocation(checkPosX, checkPosY) &&
             !this.board.squares[checkPosX][checkPosY].isEmpty() &&
-            this.board.squares[checkPosX][checkPosY].isOpponentColor(colorOpponent)) {
+            this.board.squares[checkPosX][checkPosY].color === currentColor) {
             // Yes! we have a real path
             arrayRealDisksToColor = [...arrayMaybeDisksToColor];
         }
@@ -219,7 +215,7 @@ export default class Game {
     };
 
     findOpponentSquaresInDirection = (checkPosX, checkPosY, origColor, colDirection, rowDirection) => {
-// We will check each position, and search for the opponent color
+        // We will check each position, and search for the opponent color
         let findAnyOpponentSquares = false;
         let arrayMaybeDisksToColor = [];
         while (this.board.isValidSquareLocation(checkPosX, checkPosY) &&
@@ -307,6 +303,7 @@ export default class Game {
         let currentPlayer = this.getCurrentPlayer();
         let rivalPlayer = this.getRivalPlayer();
         let nextPlayer = null;
+        let endMessage = "";
 
         // Is it legal move?
         if (this.isAllowedToPlaceDisk(squarePressed) && !this.ended) {
@@ -319,22 +316,19 @@ export default class Game {
 
             squareClickedHandler(currentPlayer.color);                      // Set current pressed square color
 
-            currentPlayer.trunedDisksSquares = [...currentPlayer.trunedDisksSquares, ...potentialSquares, squarePressed];
-            rivalPlayer.trunedDisksSquares = rivalPlayer.trunedDisksSquares.filter(square => !potentialSquares.includes(square));
-
-            // Previous player finished their turn
-            // currentPlayer.turnFinished(this.calculateScoreForPlayer(currentPlayer), this.timer.seconds);
+            // Previous player finished their turn (set score and time for turn)
+            currentPlayer.turnFinished(this.board.calculateSquaresWithColor(currentPlayer.color), this.timer.seconds);
 
             // Next player starts their turn
             this.playerTurnCounter++;
             nextPlayer = this.getCurrentPlayer();
-
+            nextPlayer.currentScore = this.board.calculateSquaresWithColor(nextPlayer.color);
+            
+            // Clear board 
             this.board.hidePotentialGainElements();
-            // nextPlayer.turnStarted(this.timer.seconds);
-            this.updatePlayerName();
-            this.statistics.updateValueByKey('playTurnCounter', this.playerTurnCounter);
-            this.statistics.updateValueByKey('playerTurnedDiskCounter', nextPlayer.trunedDisksSquares.length);
-            //this.appendPotentialGainNumber();
+            
+            nextPlayer.turnStarted(this.timer.seconds);
+            this.updatePlayerNameAndStatistics();
 
             // Player helper - shows the potential gain on every square
             if (this.shouldPresentPotentialGain) {
@@ -349,20 +343,25 @@ export default class Game {
 
         // Check again if the game ended after the last turn
         if (this.isGameEnded()) {
-            this.board.hidePotentialGainElements();
+            // Game ended
             this.ended = true;
-
+            this.board.hidePotentialGainElements();
+            this.setWinnerPlayerWithMoreDisks();
             this.timer.pause();
+            
+            // Get end message
+            if (this.winnerPlayer != null) {
+                endMessage = `the winner is ${this.winnerPlayer.name} with color ${this.winnerPlayer.color}!`;
+            } else {
+                endMessage = `It's a tie!`;
+            }
             new popUp(
                 this.gameElement,
-                `<p>The game ended! <br> the winner is ${this.winnerPlayer.name}</p>`,
+                `<p>The game ended! <br> ${endMessage}</p> `,
                 'test',
-                this.reset
+                this.reset,
+                this.players
             );
-
-            // Game ended
-            // TODO: present alert saying the game eneded
-            // TODO: offer to restart the game (update game counter)
         }
     };
 
@@ -385,30 +384,17 @@ export default class Game {
         return totalPotentialGain;
     };
 
-    // Must be called after verifying that game hasn't ended
-    moveTurnToNextPlayer = () => {
-        let nextPlayer = null;
-        // Next player should start their turn, but we need to check first that next player has
-        //    a valid moves
-        this.playerTurnCounter++;
-        nextPlayer = this.getCurrentPlayer();
-        if (this.calculatePotentialGainForPlayer(nextPlayer, false) === 0) {
-            // Next player has no valid move! next turn goes back to current player
-            this.playerTurnCounter--;
-            nextPlayer = this.getCurrentPlayer();
-        }
-
-        nextPlayer.turnStarted(this.timer.seconds);
-        this.updatePlayerName();
-
-        // Player helper - shows the potential gain on every square
-        if (this.shouldPresentPotentialGain) {
-            this.calculatePotentialGainForPlayer(nextPlayer, true);
-        }
-    };
-
-    updatePlayerName = () => {
+    updatePlayerNameAndStatistics = () => {
+        // Player name
         this.playerNameElement.textContent = `${this.getCurrentPlayer().name} (${this.getCurrentPlayer().color})`;
+
+        // Stats
+        if (this.statistics) {
+            this.statistics.updateValueByKey('playTurnCounter', this.playerTurnCounter);
+            this.statistics.updateValueByKey('playerTurnedDiskCounter', this.getCurrentPlayer().currentScore);
+            this.statistics.updateValueByKey('avgPlayerTurnTime', this.getCurrentPlayer().getStatisticsAvgTimeForMove().toFixed(2));
+            this.statistics.updateValueByKey('playerCounter2DisksLeft', this.getCurrentPlayer().getStatistics2Disks());
+        }
     };
 
     getCurrentPlayer = () => {

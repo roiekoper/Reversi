@@ -17,6 +17,8 @@ export default class Square {
         squareElement.className = 'square';
         squareElement.setAttribute('data-x', this.x);
         squareElement.setAttribute('data-y', this.y);
+        squareElement.setAttribute('data-circled', 'false');
+        squareElement.setAttribute('is-showing-gain', 'false');
         this.squareElement = squareElement;
         squareElement.onclick = () => {
             this.squareClicked(this.squareClickedHandler.bind(this), this)
@@ -63,10 +65,14 @@ export default class Square {
         this.potentialGainElement.style.fontsize = `${Math.min(25 + styleNum * 7, 60)}px`;
         this.potentialGainElement.style.opacity = Math.min(0.2 * styleNum, 1.0);
         this.potentialGainElement.innerHTML = `${num}`;
+
+        this.squareElement.setAttribute('is-showing-gain', 'true');
     };
 
     removePotentialGainElement = () => {
-        this.potentialGainElement && this.potentialGainElement.remove();
+        if (this.potentialGainElement)
+            this.potentialGainElement.remove();
+        this.squareElement.setAttribute('is-showing-gain', 'false');
     };
 
     isEmpty = () => {

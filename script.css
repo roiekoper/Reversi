@@ -71,6 +71,15 @@ h3 {
     align-items: center;
 }
 
+.square[is-showing-gain='false']:hover,
+.square[data-circled='true']:hover {
+    background-color: lightgray;
+}
+
+.square[is-showing-gain='true'][data-circled='false']:hover {
+    background-color: lightsalmon;
+}
+
 .circle {
     width: 45px;
     height: 45px;
@@ -97,9 +106,6 @@ h3 {
     z-index: 2;
 }
 
-.square[data-circled='false']:hover {
-    background-color: lightgray;
-}
 
 @keyframes circleFadeIn {
     from {
@@ -112,7 +118,7 @@ h3 {
 
 .popup {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     width: 40%;
     height: 30%;
     display: flex;
