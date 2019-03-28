@@ -177,7 +177,7 @@ export default class Game {
 
                 // Now we got to a potential our color
                 if (findAnyOpponentSquares) {
-                    arrayRealDisksToColor = [...this.checkDirectionEndWithCorrectColor(checkPosX, checkPosY,
+                    arrayRealDisksToColor = [...arrayRealDisksToColor, ...this.checkDirectionEndWithCorrectColor(checkPosX, checkPosY,
                         colorOpponent, arrayMaybeDisksToColor)]
                 }
 
@@ -296,7 +296,7 @@ export default class Game {
             // Yes it is, let's play it.
             this.board.coloredSquares.push(squarePressed);
             this.soundDiskDown.play();
-            this.placeMoveAtSquare(currentPlayer, squarePressed);    // Apply move on board (must be first because square is still nulled)
+            //this.placeMoveAtSquare(currentPlayer, squarePressed);    // Apply move on board (must be first because square is still nulled)
             let potentialSquares = currentPlayer.potentialSquareMoves[`${squarePressed.x},${squarePressed.y}`];
             this.currentPlayerClickOnPotentialMove(potentialSquares);
 
