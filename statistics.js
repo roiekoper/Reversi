@@ -69,4 +69,11 @@ export default class statistics {
         this[key] = value;
         this[`${key}Element`].innerHTML = value;
     };
+
+    reset = () => {
+        ['playTurnCounter','avgPlayerTurnTime','playerCounter2DisksLeft','playerTurnedDiskCounter'].forEach((key) => {
+            this[key] = 0;
+            this.updateValueByKey(key,0)
+        })
+    }
 }

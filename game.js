@@ -108,6 +108,7 @@ export default class Game {
         this.ended = false;
         this.playerTurnCounter = 0;
         this.updatePlayerName();
+        this.statistics.reset();
 
         if (this.shouldPresentPotentialGain) {
             this.showPotentialGainForPlayer(this.getCurrentPlayer());
