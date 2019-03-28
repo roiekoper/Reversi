@@ -26,20 +26,20 @@ export default class Timer {
         const timeContainer = document.createElement('div');
         timeContainer.className = 'time-container';
 
-        const timeTitle = document.createElement('h2');
+        const timeTitle = document.createElement('h3');
         timeTitle.className = 'time-title';
         timeTitle.textContent = 'Time: ';
 
 
-        const minElement = document.createElement('h2');
+        const minElement = document.createElement('h3');
         minElement.className = 'time-minutes';
         minElement.textContent = pad(this.seconds);
         this.minElement = minElement;
 
-        const pointsElement = document.createElement('h2');
+        const pointsElement = document.createElement('h3');
         pointsElement.textContent = ':';
 
-        const secondsElement = document.createElement('h2');
+        const secondsElement = document.createElement('h3');
         secondsElement.className = 'time-seconds';
         secondsElement.textContent = pad(this.seconds);
         this.secondsElement = secondsElement;
@@ -48,7 +48,8 @@ export default class Timer {
         timeContainer.appendChild(minElement);
         timeContainer.appendChild(pointsElement);
         timeContainer.appendChild(secondsElement);
-        document.getElementById(`game-${this.gameId}`).insertAdjacentElement('afterbegin', timeContainer);
+        document.querySelector(`#game-container-${this.gameId} .details-container`)
+            .insertAdjacentElement('afterbegin', timeContainer);
     }
 }
 

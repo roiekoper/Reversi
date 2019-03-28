@@ -2,9 +2,17 @@ body {
     background-color: black;
 }
 
-h1, h2 {
+h1, h2, h3 {
     text-align: center;
     color: white;
+}
+
+h3 {
+    margin: 0;
+}
+
+.time-container, .player-container {
+    margin-bottom: 10px;
 }
 
 .games-container {
@@ -21,6 +29,13 @@ h1, h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
     justify-content: center;
 }
 

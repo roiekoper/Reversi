@@ -13,6 +13,8 @@ export default class Game {
         this.board = null;
         this.gameElement = null;
         this.playerNameElement = null;
+        this.detailsContainerElement = null;
+        this.gameContainerElement = null;
         this.timer = null;
         this.soundDiskDown = new SoundPlayer("./sounds/diskdown.mp3");
         this.soundBadMove = new SoundPlayer("./sounds/badmove.mp3");
@@ -45,11 +47,16 @@ export default class Game {
         gameElement.setAttribute('id', `game-${this.id}`);
         this.gameElement = gameElement;
 
-        const gameContainer = document.createElement('div');
-        gameContainer.className = 'game-container';
-        gameContainer.appendChild(gameElement);
+        this.gameContainerElement = document.createElement('div');
+        this.gameContainerElement.className = 'game-container';
+        this.gameContainerElement.id = `game-container-${this.id}`;
 
-        document.getElementsByClassName('games-container')[0].appendChild(gameContainer);
+        this.detailsContainerElement = document.createElement('div');
+        this.detailsContainerElement.className = 'details-container';
+        this.gameContainerElement.appendChild(this.detailsContainerElement);
+        this.gameContainerElement.appendChild(gameElement);
+
+        document.getElementsByClassName('games-container')[0].appendChild(this.gameContainerElement);
         this.renderPlayerContainer();
     };
 
@@ -101,18 +108,18 @@ export default class Game {
         const playerContainer = document.createElement('div');
         playerContainer.className = 'player-container';
 
-        const playerTitle = document.createElement('h2');
+        const playerTitle = document.createElement('h3');
         playerTitle.className = 'player-title';
         playerTitle.textContent = 'Player:';
 
-        const playerNameElement = document.createElement('h2');
+        const playerNameElement = document.createElement('h3');
         playerNameElement.className = 'player-name';
         this.playerNameElement = playerNameElement;
         this.updatePlayerName();
 
         playerContainer.appendChild(playerTitle);
         playerContainer.appendChild(playerNameElement);
-        this.gameElement.appendChild(playerContainer)
+        this.detailsContainerElement.appendChild(playerContainer)
     };
 
     renderInitializeCircles = () => {
