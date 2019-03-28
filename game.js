@@ -2,6 +2,7 @@ import Board from './board.js'
 import Timer from './timer.js'
 import SoundPlayer from './utils.js'
 import popUp from './popUp.js'
+import statistics from './statistics.js'
 
 export default class Game {
     constructor(players, size = 10) {
@@ -20,8 +21,8 @@ export default class Game {
         this.soundBadMove = new SoundPlayer("./sounds/badmove.mp3");
         this.shouldPresentPotentialGain = true; // TODO: toggle with checkbox
         this.winnerPlayer = null;
-        // TODO: TIMER
         this.timer = null;
+        this.statistics = null;
         Game.counter++;
 
         this.render();
@@ -35,8 +36,10 @@ export default class Game {
 
         this.timer = new Timer(this.id);
 
+        this.statistics = new statistics(this.detailsContainerElement);
+        this.statistics.updateValueByKey('playerTurnedDiskCounter', this.getCurrentPlayer().trunedDisksSquares.length);
+
         // First player starts the game
-        // TODO TIMER
         // this.getCurrentPlayer().turnStarted(this.timer.seconds);
     }
 
@@ -53,11 +56,47 @@ export default class Game {
 
         this.detailsContainerElement = document.createElement('div');
         this.detailsContainerElement.className = 'details-container';
+
+        this.criticDetailsElement = document.createElement('div');
+        this.criticDetailsElement.className = 'critic-details-container';
+
+        this.detailsContainerElement.appendChild(this.criticDetailsElement);
         this.gameContainerElement.appendChild(this.detailsContainerElement);
         this.gameContainerElement.appendChild(gameElement);
 
         document.getElementsByClassName('games-container')[0].appendChild(this.gameContainerElement);
         this.renderPlayerContainer();
+    };
+
+    renderPlayerContainer = () => {
+        const playerContainer = document.createElement('div');
+        playerContainer.className = 'player-container';
+
+        const playerTitle = document.createElement('h3');
+        playerTitle.className = 'player-title';
+        playerTitle.textContent = 'Player:';
+
+        const playerNameElement = document.createElement('h3');
+        playerNameElement.className = 'player-name';
+        this.playerNameElement = playerNameElement;
+        this.updatePlayerName();
+
+        playerContainer.appendChild(playerTitle);
+        playerContainer.appendChild(playerNameElement);
+        this.criticDetailsElement.appendChild(playerContainer)
+    };
+
+    renderInitializeCircles = () => {
+        const halfSize = this.size / 2 - 1;
+
+        for (const row of Array(2).keys()) {
+            for (const col of Array(2).keys()) {
+                const playerColor = this.players[(col + row) % 2].color;
+                this.players[(col + row) % 2].trunedDisksSquares.push(this.board.squares[halfSize + row][halfSize + col]);
+                this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
+                this.board.coloredSquares.push(this.board.squares[halfSize + row][halfSize + col]);
+            }
+        }
     };
 
     reset = (popup) => {
@@ -102,36 +141,6 @@ export default class Game {
         // No legal moves left, game ended
         return currentPlayer.potentialSquareMoves.length > 0 &&
             rivalPlayer.potentialSquareMoves.length > 0;
-    };
-
-    renderPlayerContainer = () => {
-        const playerContainer = document.createElement('div');
-        playerContainer.className = 'player-container';
-
-        const playerTitle = document.createElement('h3');
-        playerTitle.className = 'player-title';
-        playerTitle.textContent = 'Player:';
-
-        const playerNameElement = document.createElement('h3');
-        playerNameElement.className = 'player-name';
-        this.playerNameElement = playerNameElement;
-        this.updatePlayerName();
-
-        playerContainer.appendChild(playerTitle);
-        playerContainer.appendChild(playerNameElement);
-        this.detailsContainerElement.appendChild(playerContainer)
-    };
-
-    renderInitializeCircles = () => {
-        const halfSize = this.size / 2 - 1;
-
-        for (const row of Array(2).keys()) {
-            for (const col of Array(2).keys()) {
-                const playerColor = this.players[(col + row) % 2].color;
-                this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
-                this.board.coloredSquares = [...this.board.coloredSquares, this.board.squares[halfSize + row][halfSize + col]]
-            }
-        }
     };
 
     setWinnerPlayerWithMoreDisks = () => {
@@ -296,6 +305,7 @@ export default class Game {
 
     playerClicked = (squareClickedHandler, squarePressed) => {
         let currentPlayer = this.getCurrentPlayer();
+        let rivalPlayer = this.getRivalPlayer();
         let nextPlayer = null;
 
         // Is it legal move?
@@ -309,9 +319,10 @@ export default class Game {
 
             squareClickedHandler(currentPlayer.color);                      // Set current pressed square color
 
-            currentPlayer.trunedDisksSquares = [...currentPlayer.trunedDisksSquares, potentialSquares];
+            currentPlayer.trunedDisksSquares = [...currentPlayer.trunedDisksSquares, ...potentialSquares, squarePressed];
+            rivalPlayer.trunedDisksSquares = rivalPlayer.trunedDisksSquares.filter(square => !potentialSquares.includes(square));
+
             // Previous player finished their turn
-            // TODO TIMER
             // currentPlayer.turnFinished(this.calculateScoreForPlayer(currentPlayer), this.timer.seconds);
 
             // Next player starts their turn
@@ -319,9 +330,10 @@ export default class Game {
             nextPlayer = this.getCurrentPlayer();
 
             this.board.hidePotentialGainElements();
-            // TODO TIMER
             // nextPlayer.turnStarted(this.timer.seconds);
             this.updatePlayerName();
+            this.statistics.updateValueByKey('playTurnCounter', this.playerTurnCounter);
+            this.statistics.updateValueByKey('playerTurnedDiskCounter', nextPlayer.trunedDisksSquares.length);
             //this.appendPotentialGainNumber();
 
             // Player helper - shows the potential gain on every square
@@ -380,7 +392,7 @@ export default class Game {
         //    a valid moves
         this.playerTurnCounter++;
         nextPlayer = this.getCurrentPlayer();
-        if (this.calculatePotentialGainForPlayer(nextPlayer, false) == 0) {
+        if (this.calculatePotentialGainForPlayer(nextPlayer, false) === 0) {
             // Next player has no valid move! next turn goes back to current player
             this.playerTurnCounter--;
             nextPlayer = this.getCurrentPlayer();

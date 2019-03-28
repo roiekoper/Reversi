@@ -48,7 +48,7 @@ export default class Timer {
         timeContainer.appendChild(minElement);
         timeContainer.appendChild(pointsElement);
         timeContainer.appendChild(secondsElement);
-        document.querySelector(`#game-container-${this.gameId} .details-container`)
+        document.querySelector(`#game-container-${this.gameId} .critic-details-container`)
             .insertAdjacentElement('afterbegin', timeContainer);
     }
 }
