@@ -34,7 +34,7 @@ export default class Player {
     turnFinished = (score, timeSeconds) => {
         this.isMyTrun = false;
         this.currentScore = score;
-        if (score == 2) {
+        if (score === 2) {
             this.counter2DisksLeft++;
         }
         this.arrayTurnsTime.push(timeSeconds - this.startedTurnAt);
@@ -52,8 +52,4 @@ export default class Player {
     getStatistics2Disks = () =>{
         return this.counter2DisksLeft;
     };
-
-    colorOpponent = () => {
-        return this.color === "black" ? "white" : "black";
-    }
 }

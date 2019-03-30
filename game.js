@@ -1,8 +1,8 @@
 import Board from './board.js'
 import Timer from './timer.js'
 import SoundPlayer from './utils.js'
-import popUp from './popUp.js'
-import statistics from './statistics.js'
+import PopUp from './popUp.js'
+import Statistics from './statistics.js'
 
 export default class Game {
     constructor(players, size = 10) {
@@ -30,7 +30,7 @@ export default class Game {
         this.renderInitializeCircles();
 
         this.timer = new Timer(this.id);
-        this.statistics = new statistics(this.detailsContainerElement);
+        this.statistics = new Statistics(this.detailsContainerElement);
 
         // First player starts the game
         this.getCurrentPlayer().turnStarted(this.timer.seconds);
@@ -128,14 +128,14 @@ export default class Game {
         }
 
         // All squares are occupied by the same color
-        if ((this.board.calculateSquaresWithColor(currentPlayer.color) === this.board.coloredSquares.length) || 
-        (this.board.calculateSquaresWithColor(rivalPlayer.color) === this.board.coloredSquares.length)) {
+        if ((this.board.calculateSquaresWithColor(currentPlayer.color) === this.board.coloredSquares.length) ||
+            (this.board.calculateSquaresWithColor(rivalPlayer.color) === this.board.coloredSquares.length)) {
             return true;
         }
 
         // Check that there is at least 1 box with a valid move for at least one player
         // No legal moves left, game ended
-        return currentPlayer.potentialSquareMoves.length == 0;
+        return currentPlayer.potentialSquareMoves.length === 0;
     };
 
     setWinnerPlayerWithMoreDisks = () => {
@@ -159,7 +159,6 @@ export default class Game {
         let origPosX = square.x;
         let origPosY = square.y;
         let origColor = player.color;
-        let colorOpponent = player.colorOpponent();
 
         // If current square is occupied already - can't place a disk on it
         if (!square.isEmpty()) {
@@ -190,7 +189,7 @@ export default class Game {
 
                 // Now we got to a potential our color
                 if (findAnyOpponentSquares) {
-                    arrayRealDisksToColor = [...arrayRealDisksToColor, ...this.checkDirectionEndWithCurrectColor(checkPosX, checkPosY, origColor, arrayMaybeDisksToColor)]
+                    arrayRealDisksToColor = [...arrayRealDisksToColor, ...this.checkDirectionEndWithCurrentColor(checkPosX, checkPosY, origColor, arrayMaybeDisksToColor)]
                 }
 
                 // Clear temporary disks (GC will do the job)
@@ -202,7 +201,7 @@ export default class Game {
         return arrayRealDisksToColor.length;
     };
 
-    checkDirectionEndWithCurrectColor = (checkPosX, checkPosY, currentColor, arrayMaybeDisksToColor) => {
+    checkDirectionEndWithCurrentColor = (checkPosX, checkPosY, currentColor, arrayMaybeDisksToColor) => {
         // Check if in the place where we got - is our color
         let arrayRealDisksToColor = [];
         if (this.board.isValidSquareLocation(checkPosX, checkPosY) &&
@@ -301,7 +300,6 @@ export default class Game {
 
     playerClicked = (squareClickedHandler, squarePressed) => {
         let currentPlayer = this.getCurrentPlayer();
-        let rivalPlayer = this.getRivalPlayer();
         let nextPlayer = null;
         let endMessage = "";
 
@@ -323,10 +321,10 @@ export default class Game {
             this.playerTurnCounter++;
             nextPlayer = this.getCurrentPlayer();
             nextPlayer.currentScore = this.board.calculateSquaresWithColor(nextPlayer.color);
-            
+
             // Clear board 
             this.board.hidePotentialGainElements();
-            
+
             nextPlayer.turnStarted(this.timer.seconds);
             this.updatePlayerNameAndStatistics();
 
@@ -334,7 +332,6 @@ export default class Game {
             if (this.shouldPresentPotentialGain) {
                 this.showPotentialGainForPlayer(nextPlayer);
             }
-
         } else {
             // No, it's not a legal move, don't change turns
             this.soundBadMove.play();
@@ -348,14 +345,14 @@ export default class Game {
             this.board.hidePotentialGainElements();
             this.setWinnerPlayerWithMoreDisks();
             this.timer.pause();
-            
+
             // Get end message
             if (this.winnerPlayer != null) {
                 endMessage = `the winner is ${this.winnerPlayer.name} with color ${this.winnerPlayer.color}!`;
             } else {
                 endMessage = `It's a tie!`;
             }
-            new popUp(
+            new PopUp(
                 this.gameElement,
                 `<p>The game ended! <br> ${endMessage}</p> `,
                 'test',
@@ -363,25 +360,6 @@ export default class Game {
                 this.players
             );
         }
-    };
-
-    // Will iterate all squares and try to calculate gain for every potential move
-    // Return the total potential gain for player
-    calculatePotentialGainForPlayer = (player, isShow = false) => {
-        let currentPlayer = this.getCurrentPlayer();
-        let potentialGain = 0;
-        let totalPotentialGain = 0;
-        this.board.squares.forEach(row => {
-            row.forEach(square => {
-                potentialGain = this.placeMoveAtSqaure(currentPlayer, square, false);
-                totalPotentialGain += potentialGain;
-                // Update square
-                if (isShow) {
-                    square.setPotentialGain(potentialGain);
-                }
-            })
-        });
-        return totalPotentialGain;
     };
 
     updatePlayerNameAndStatistics = () => {

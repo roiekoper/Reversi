@@ -14,7 +14,7 @@ export default class Board {
         return this;
     }
 
-    render() {
+    render = () => {
         this.boardElement = document.createElement('div');
         this.boardElement['data-id'] = this.id;
         this.boardElement.className = 'board';
@@ -38,32 +38,32 @@ export default class Board {
     };
 
     calculateSquaresWithColor = (color) => {
-      let counterColor = 0;
+        let counterColor = 0;
 
-      this.squares.forEach(row => {
-        row.forEach(square => {
-          if (square.color === color) {
-            counterColor++
-          }
+        this.squares.forEach(row => {
+            row.forEach(square => {
+                if (square.color === color) {
+                    counterColor++
+                }
+            });
         });
-      });
 
-      return counterColor;
+        return counterColor;
     };
-  
+
     howManyEmptySquares = () => {
-      return this.calculateSquaresWithColor(null);
+        return this.calculateSquaresWithColor(null);
     };
 
-    isValidSquareLocation = (x ,y) => {
-      let row = y;
-      let col = x;
-      return row >= 0 && col >= 0 && row < this.size && col < this.size;
+    isValidSquareLocation = (x, y) => {
+        let row = y;
+        let col = x;
+        return row >= 0 && col >= 0 && row < this.size && col < this.size;
     };
 
     hidePotentialGainElements = () => {
         this.squares.flat().forEach((square) => {
-           square.removePotentialGainElement();
+            square.removePotentialGainElement();
         });
     };
 }

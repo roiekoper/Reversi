@@ -22,7 +22,7 @@ export default class Timer {
         window.clearInterval(this.interval);
     };
 
-    render() {
+    render = () => {
         const timeContainer = document.createElement('div');
         timeContainer.className = 'time-container';
 

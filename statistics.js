@@ -1,4 +1,4 @@
-export default class statistics {
+export default class Statistics {
     constructor(detailsContainerElement) {
         this.detailsContainerElement = detailsContainerElement;
         this.playTurnCounter = 0;

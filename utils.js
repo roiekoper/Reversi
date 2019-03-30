@@ -10,8 +10,5 @@ export default class SoundPlayer {
 
     play = () => {
         this.sound.play();
-      }
-    stop = () => {
-        this.sound.pause();
-      }
+    };
 }

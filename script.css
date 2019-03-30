@@ -73,11 +73,12 @@ h3 {
 
 .square[is-showing-gain='false']:hover,
 .square[data-circled='true']:hover {
-    background-color: lightgray;
+    cursor: not-allowed;
 }
 
 .square[is-showing-gain='true'][data-circled='false']:hover {
     background-color: lightsalmon;
+    cursor: pointer;
 }
 
 .circle {
