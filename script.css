@@ -76,7 +76,8 @@ h3 {
     cursor: not-allowed;
 }
 
-.square[is-showing-gain='true'][data-circled='false']:hover {
+.square[is-showing-gain='true'][data-circled='false']:hover 
+{
     background-color: lightsalmon;
     cursor: pointer;
 }

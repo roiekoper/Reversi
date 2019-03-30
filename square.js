@@ -55,7 +55,7 @@ export default class Square {
     };
 
     /* Potential gain */
-    appendPotentialGainNumber = (num) => {
+    appendPotentialGainNumber = (num, isHidden=false) => {
         const styleNum = num + 1; // skip zero to show zero on screen
         this.potentialGainElement = document.createElement('h2');
         this.potentialGainElement.className = 'potential-gain';
@@ -66,13 +66,32 @@ export default class Square {
         this.potentialGainElement.style.opacity = Math.min(0.2 * styleNum, 1.0);
         this.potentialGainElement.innerHTML = `${num}`;
 
-        this.squareElement.setAttribute('is-showing-gain', 'true');
+        if (isHidden) {
+            this.hidePotentialGainElement();
+        } else {
+            this.showPotentialGainElement();
+        }
     };
 
     removePotentialGainElement = () => {
-        if (this.potentialGainElement)
+        if (this.potentialGainElement) {
             this.potentialGainElement.remove();
-        this.squareElement.setAttribute('is-showing-gain', 'false');
+            this.squareElement.setAttribute('is-showing-gain', 'false');
+        }
+    };
+
+    hidePotentialGainElement = () => {
+        if (this.potentialGainElement) {
+            this.potentialGainElement.style.visibility = 'hidden';
+            this.squareElement.setAttribute('is-showing-gain', 'false-hidden');
+        }
+    };
+
+    showPotentialGainElement = () => {
+        if (this.potentialGainElement) {
+            this.potentialGainElement.style.visibility = 'visible';
+            this.squareElement.setAttribute('is-showing-gain', 'true');
+        }
     };
 
     isEmpty = () => {

@@ -16,10 +16,10 @@ export default class Game {
         this.playerNameElement = null;
         this.detailsContainerElement = null;
         this.gameContainerElement = null;
+        this.playerLearningModeCheckboxElement = null;
         this.timer = null;
         this.soundDiskDown = new SoundPlayer("./sounds/diskdown.mp3");
         this.soundBadMove = new SoundPlayer("./sounds/badmove.mp3");
-        this.shouldPresentPotentialGain = true; // TODO: toggle with checkbox
         this.winnerPlayer = null;
         this.timer = null;
         this.statistics = null;
@@ -35,9 +35,9 @@ export default class Game {
         // First player starts the game
         this.getCurrentPlayer().turnStarted(this.timer.seconds);
         // Player helper - shows the potential gain on every square
-        if (this.shouldPresentPotentialGain) {
-            this.showPotentialGainForPlayer(this.getCurrentPlayer());
-        }
+        this.calculatePotentialGainForPlayer(this.getCurrentPlayer());
+        // Update player items
+        this.updatePlayerItems();
     }
 
     render = () => {
@@ -76,11 +76,24 @@ export default class Game {
         const playerNameElement = document.createElement('h3');
         playerNameElement.className = 'player-name';
         this.playerNameElement = playerNameElement;
-        this.updatePlayerNameAndStatistics();
+
+        let playerLearningModeContainerElement = document.createElement('div');
+        playerLearningModeContainerElement.className = 'label-container';
+        let playerLearningModeElementLabel = document.createElement('h3');
+        playerLearningModeElementLabel.className = 'label';
+        playerLearningModeElementLabel.innerHTML = 'Learning Mode:';
+        const playerLearningModeCheckboxElement = document.createElement('input');
+        playerLearningModeCheckboxElement.className = 'player-checkbox';
+        playerLearningModeCheckboxElement.type = 'checkbox';
+        playerLearningModeCheckboxElement.onchange = this.checkboxLearningModeClicked.bind(this);
+        this.playerLearningModeCheckboxElement = playerLearningModeCheckboxElement;
+        playerLearningModeContainerElement.appendChild(playerLearningModeElementLabel);
+        playerLearningModeContainerElement.appendChild(playerLearningModeCheckboxElement);
 
         playerContainer.appendChild(playerTitle);
         playerContainer.appendChild(playerNameElement);
-        this.criticDetailsElement.appendChild(playerContainer)
+        this.criticDetailsElement.appendChild(playerContainer);
+        this.criticDetailsElement.appendChild(playerLearningModeContainerElement);
     };
 
     renderInitializeCircles = () => {
@@ -92,6 +105,26 @@ export default class Game {
                 this.board.squares[halfSize + row][halfSize + col].changeColorTo(playerColor);
                 this.board.coloredSquares.push(this.board.squares[halfSize + row][halfSize + col]);
             }
+        }
+    };
+
+    checkboxLearningModeClicked = () => {
+        let currentPlayer = this.getCurrentPlayer();
+        currentPlayer.isInLearningMode = this.playerLearningModeCheckboxElement.checked; // update new status
+        this.checkboxLearningModeUpdate();
+    };
+
+    checkboxLearningModeUpdate = () => {
+        let currentPlayer = this.getCurrentPlayer();
+        
+        // Update checkbox status
+        this.playerLearningModeCheckboxElement.checked = currentPlayer.isInLearningMode;
+        
+        // Update board
+        if (currentPlayer.isInLearningMode) {
+            this.board.showPotentialGainElements(false);
+        } else {
+            this.board.hidePotentialGainElements(false);
         }
     };
 
@@ -109,11 +142,8 @@ export default class Game {
             player.reset();
         });
 
-        if (this.shouldPresentPotentialGain) {
-            this.showPotentialGainForPlayer(this.getCurrentPlayer());
-        }
-
-        this.updatePlayerNameAndStatistics();
+        this.calculatePotentialGainForPlayer(this.getCurrentPlayer());
+        this.updatePlayerItems();
         popup.destroy();
     };
 
@@ -283,15 +313,15 @@ export default class Game {
     };
 
     // Will iterate all squares and try to calculate gain for every potential move
-    showPotentialGainForPlayer = (player) => {
-        let squareAppends = {}; // there is squares find same empty squares around
+    calculatePotentialGainForPlayer = (player) => {
+        let squareAppends = {};
         this.board.coloredSquares.forEach(coloredSquare => {
             this.getEmptySquaresAround(coloredSquare).forEach(emptySquare => {
                 if (!squareAppends[`${emptySquare.x},${emptySquare.y}`]) {
                     let potentialGain = this.placeMoveAtSquare(player, emptySquare);
 
                     // Update emptySquare
-                    emptySquare.appendPotentialGainNumber(potentialGain);
+                    emptySquare.appendPotentialGainNumber(potentialGain, !player.isInLearningMode);
                     squareAppends[`${emptySquare.x},${emptySquare.y}`] = true;
                 }
             });
@@ -308,11 +338,9 @@ export default class Game {
             // Yes it is, let's play it.
             this.board.coloredSquares.push(squarePressed);
             this.soundDiskDown.play();
-            //this.placeMoveAtSquare(currentPlayer, squarePressed);    // Apply move on board (must be first because square is still nulled)
             let potentialSquares = currentPlayer.potentialSquareMoves[`${squarePressed.x},${squarePressed.y}`];
             this.currentPlayerClickOnPotentialMove(potentialSquares);
-
-            squareClickedHandler(currentPlayer.color);                      // Set current pressed square color
+            squareClickedHandler(currentPlayer.color);
 
             // Previous player finished their turn (set score and time for turn)
             currentPlayer.turnFinished(this.board.calculateSquaresWithColor(currentPlayer.color), this.timer.seconds);
@@ -323,15 +351,13 @@ export default class Game {
             nextPlayer.currentScore = this.board.calculateSquaresWithColor(nextPlayer.color);
 
             // Clear board 
-            this.board.hidePotentialGainElements();
+            this.board.hidePotentialGainElements(true);
 
             nextPlayer.turnStarted(this.timer.seconds);
-            this.updatePlayerNameAndStatistics();
+            this.updatePlayerItems();
 
             // Player helper - shows the potential gain on every square
-            if (this.shouldPresentPotentialGain) {
-                this.showPotentialGainForPlayer(nextPlayer);
-            }
+            this.calculatePotentialGainForPlayer(nextPlayer);
         } else {
             // No, it's not a legal move, don't change turns
             this.soundBadMove.play();
@@ -342,7 +368,7 @@ export default class Game {
         if (this.isGameEnded()) {
             // Game ended
             this.ended = true;
-            this.board.hidePotentialGainElements();
+            this.board.hidePotentialGainElements(true);
             this.setWinnerPlayerWithMoreDisks();
             this.timer.pause();
 
@@ -362,7 +388,7 @@ export default class Game {
         }
     };
 
-    updatePlayerNameAndStatistics = () => {
+    updatePlayerItems = () => {
         // Player name
         this.playerNameElement.textContent = `${this.getCurrentPlayer().name} (${this.getCurrentPlayer().color})`;
 
@@ -373,6 +399,9 @@ export default class Game {
             this.statistics.updateValueByKey('avgPlayerTurnTime', this.getCurrentPlayer().getStatisticsAvgTimeForMove().toFixed(2));
             this.statistics.updateValueByKey('playerCounter2DisksLeft', this.getCurrentPlayer().getStatistics2Disks());
         }
+
+        // Update learning mode
+        this.checkboxLearningModeUpdate();
     };
 
     getCurrentPlayer = () => {

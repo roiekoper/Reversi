@@ -61,9 +61,19 @@ export default class Board {
         return row >= 0 && col >= 0 && row < this.size && col < this.size;
     };
 
-    hidePotentialGainElements = () => {
+    hidePotentialGainElements = (shouldRemove=false) => {
         this.squares.flat().forEach((square) => {
-            square.removePotentialGainElement();
+            if (shouldRemove) {
+                square.removePotentialGainElement();
+            } else {
+                square.hidePotentialGainElement();
+            }
+        });
+    };
+
+    showPotentialGainElements = () => {
+        this.squares.flat().forEach((square) => {
+            square.showPotentialGainElement();
         });
     };
 }

@@ -1,5 +1,5 @@
 export default class Player {
-    constructor(gameId, name, color, isHuman) {
+    constructor(gameId, name, color, isHuman, isInLearningMode) {
         this.gameId = gameId;       // What game does the player currenly play
         this.name = name;           // Player's name
         this.color = color;         // White / Black
@@ -12,6 +12,7 @@ export default class Player {
         this.startedTurnAt = 0;
         this.counter2DisksLeft = 0;
         this.potentialSquareMoves = {};
+        this.isInLearningMode = isInLearningMode;
     }
 
     reset = () => {
