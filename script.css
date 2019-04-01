@@ -32,6 +32,12 @@ h3 {
     display: inline-block;
 }
 
+.pre-game-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 .game {
     display: flex;
     flex-direction: column;

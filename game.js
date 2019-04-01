@@ -97,7 +97,7 @@ export default class Game {
     };
 
     renderInitializeCircles = () => {
-        const halfSize = this.size / 2 - 1;
+        const halfSize = Math.ceil(this.size / 2) - 1;
 
         for (const row of Array(2).keys()) {
             for (const col of Array(2).keys()) {
