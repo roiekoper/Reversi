@@ -90,10 +90,18 @@ export default class Game {
         playerLearningModeContainerElement.appendChild(playerLearningModeElementLabel);
         playerLearningModeContainerElement.appendChild(playerLearningModeCheckboxElement);
 
+        let resignContainerElement = document.createElement('div');
+        const resignButtonElement = document.createElement('button');
+        resignButtonElement.className = 'player-resign-button';
+        resignButtonElement.textContent = 'Resign';
+        resignButtonElement.onclick = this.resignButtonClicked.bind(this);
+        resignContainerElement.appendChild(resignButtonElement);
+
         playerContainer.appendChild(playerTitle);
         playerContainer.appendChild(playerNameElement);
         this.criticDetailsElement.appendChild(playerContainer);
         this.criticDetailsElement.appendChild(playerLearningModeContainerElement);
+        this.criticDetailsElement.appendChild(resignContainerElement);
     };
 
     renderInitializeCircles = () => {
@@ -113,7 +121,7 @@ export default class Game {
         currentPlayer.isInLearningMode = this.playerLearningModeCheckboxElement.checked; // update new status
         this.checkboxLearningModeUpdate();
     };
-
+    
     checkboxLearningModeUpdate = () => {
         let currentPlayer = this.getCurrentPlayer();
         
@@ -126,6 +134,28 @@ export default class Game {
         } else {
             this.board.hidePotentialGainElements(false);
         }
+    };
+
+    resignButtonClicked = () => {
+        // currentPlayer resigned
+        let currentPlayer = this.getCurrentPlayer();
+        let rivalPlayer = this.getRivalPlayer();
+
+        // Game ended
+        this.ended = true;
+        this.board.hidePotentialGainElements(true);
+        this.winnerPlayer = rivalPlayer;
+        this.timer.pause();
+
+        let endMessage = `${currentPlayer.name} (${currentPlayer.color}) resigned.<br>The winner is ${this.winnerPlayer.name} (${this.winnerPlayer.color})!`;
+        new PopUp(
+            this.gameElement,
+            `<p>${endMessage}</p> `,
+            'test',
+            this.reset,
+            this.players
+        );
+
     };
 
     reset = (popup) => {
@@ -374,13 +404,13 @@ export default class Game {
 
             // Get end message
             if (this.winnerPlayer != null) {
-                endMessage = `the winner is ${this.winnerPlayer.name} with color ${this.winnerPlayer.color}!`;
+                endMessage = `The winner is ${this.winnerPlayer.name} (${this.winnerPlayer.color})!`;
             } else {
                 endMessage = `It's a tie!`;
             }
             new PopUp(
                 this.gameElement,
-                `<p>The game ended! <br> ${endMessage}</p> `,
+                `<p>${endMessage}</p> `,
                 'test',
                 this.reset,
                 this.players
