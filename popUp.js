@@ -39,7 +39,7 @@ export default class PopUp {
         this.element.appendChild(titleElement);
         this.element.appendChild(statisticsElement);
 
-        this.statistics = new Statistics(this.element); // render statistics container before button
+        new Statistics(this.element, this.statistics); // render statistics container before button
 
         this.element.appendChild(newGameContainerElement);
         this.gameElement.insertBefore(this.element,this.gameElement.firstChild);

@@ -1,5 +1,5 @@
 export default class Statistics {
-    constructor(detailsContainerElement) {
+    constructor(detailsContainerElement, existingStatistics = null) {
         this.detailsContainerElement = detailsContainerElement;
         this.playTurnCounter = 0;
         this.playTurnCounterElement = null;
@@ -9,11 +9,14 @@ export default class Statistics {
         this.playerCounter2DisksLeftElement = null;
         this.playerTurnedDiskCounter = 0;
         this.playerTurnedDiskCounterElement = null;
+        this.existingStatistics = existingStatistics;
+
+        this.updateWithExistingStatistics();
 
         this.render();
     }
 
-    render = () => {
+  render = () => {
         let statisticsElement = document.createElement('div');
         statisticsElement.className = 'statistics-container';
 
@@ -76,4 +79,16 @@ export default class Statistics {
             this.updateValueByKey(key,0)
         })
     }
+
+  updateWithExistingStatistics = () => {
+    if (this.existingStatistics) {
+      [
+        'playTurnCounter', 'avgPlayerTurnTime',
+        'playerCounter2DisksLeft', 'playerTurnedDiskCounter'
+      ].forEach((key) => {
+        this[key] = this.existingStatistics[key];
+      })
+    }
+  };
+
 }

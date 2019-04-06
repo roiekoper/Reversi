@@ -151,7 +151,7 @@ export default class Game {
         new PopUp(
             this.gameElement,
             `<p>${endMessage}</p> `,
-            'test',
+            this.statistics,
             this.reset,
             this.players
         );
@@ -382,41 +382,44 @@ export default class Game {
 
             // Clear board 
             this.board.hidePotentialGainElements(true);
+            this.checkGameEnded(endMessage, nextPlayer)
 
-            nextPlayer.turnStarted(this.timer.seconds);
-            this.updatePlayerItems();
-
-            // Player helper - shows the potential gain on every square
-            this.calculatePotentialGainForPlayer(nextPlayer);
         } else {
             // No, it's not a legal move, don't change turns
             this.soundBadMove.play();
         }
+    };
 
-
-        // Check again if the game ended after the last turn
+    checkGameEnded (endMessage, nextPlayer) {
+// Check again if the game ended after the last turn
         if (this.isGameEnded()) {
             // Game ended
-            this.ended = true;
-            this.board.hidePotentialGainElements(true);
-            this.setWinnerPlayerWithMoreDisks();
-            this.timer.pause();
+            this.ended = true
+            this.board.hidePotentialGainElements(true)
+            this.setWinnerPlayerWithMoreDisks()
+            this.timer.pause()
 
             // Get end message
             if (this.winnerPlayer != null) {
-                endMessage = `The winner is ${this.winnerPlayer.name} (${this.winnerPlayer.color})!`;
+                endMessage = `The winner is ${this.winnerPlayer.name} (${this.winnerPlayer.color})!`
             } else {
-                endMessage = `It's a tie!`;
+                endMessage = `It's a tie!`
             }
             new PopUp(
-                this.gameElement,
-                `<p>${endMessage}</p> `,
-                'test',
-                this.reset,
-                this.players
-            );
+              this.gameElement,
+              `<p>${endMessage}</p> `,
+              this.statistics,
+              this.reset,
+              this.players
+            )
+        } else {
+            nextPlayer.turnStarted(this.timer.seconds)
+            this.updatePlayerItems()
+
+            // Player helper - shows the potential gain on every square
+            this.calculatePotentialGainForPlayer(nextPlayer)
         }
-    };
+    }
 
     updatePlayerItems = () => {
         // Player name
