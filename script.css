@@ -32,6 +32,12 @@ h3 {
     display: inline-block;
 }
 
+.pre-game-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 .game {
     display: flex;
     flex-direction: column;
@@ -76,7 +82,8 @@ h3 {
     cursor: not-allowed;
 }
 
-.square[is-showing-gain='true'][data-circled='false']:hover {
+.square[is-showing-gain='true'][data-circled='false']:hover 
+{
     background-color: lightsalmon;
     cursor: pointer;
 }
