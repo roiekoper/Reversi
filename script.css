@@ -126,9 +126,8 @@ h3 {
 
 .popup {
     position: absolute;
-    z-index: 3;
+    z-index: 100;
     width: 40%;
-    height: 30%;
     display: flex;
     flex-direction: column;
     background-color: #e5e5e5;
@@ -141,6 +140,7 @@ h3 {
 
 .popup h1 {
     color: black;
+    margin: 0;
 }
 
 .popup .button-container {
@@ -154,6 +154,17 @@ h3 {
 .popup h2 {
     color: black;
     text-align: left;
+    margin: 0;
+}
+
+.popup .label-container h3 {
+    color: black;
+}
+
+.popup .statistics-container {
+    border-radius: 10px;
+    border: 2px solid black;
+    padding: 5px;
 }
 
 .label-container {
@@ -163,4 +174,14 @@ h3 {
 
 .label-container .label {
     margin-right: 8px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.85);
 }

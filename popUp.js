@@ -1,16 +1,22 @@
+import Statistics from './statistics.js'
+
 export default class PopUp {
     constructor(gameElement, message, statistics, newGameHandler, players) {
-        this.gameElement = gameElement;
-        this.message = message;
-        this.statistics = statistics;
-        this.element = null;
-        this.newGameHandler = newGameHandler;
-        this.players = players;
-
-        this.render();
+      this.gameElement = gameElement;
+      this.message = message;
+      this.element = null;
+      this.statistics = statistics;
+      this.newGameHandler = newGameHandler;
+      this.players = players;
+      this.render();
     }
 
     render() {
+        this.overlayElement = document.createElement('div');
+        this.overlayElement.classList.add('overlay');
+        let parentGameElement = this.gameElement.parentElement;
+        parentGameElement.insertBefore(this.overlayElement, parentGameElement.firstChild);
+
         this.element = document.createElement('div');
         this.element.classList.add('popup');
 
@@ -32,11 +38,15 @@ export default class PopUp {
         newGameContainerElement.appendChild(newGameButtonElement);
         this.element.appendChild(titleElement);
         this.element.appendChild(statisticsElement);
+
+        this.statistics = new Statistics(this.element); // render statistics container before button
+
         this.element.appendChild(newGameContainerElement);
         this.gameElement.insertBefore(this.element,this.gameElement.firstChild);
     }
 
     destroy = () => {
-        this.element.remove();
+      this.overlayElement.remove();
+      this.element.remove();
     }
 }
