@@ -1,7 +1,7 @@
 # Reversi
 ### Students
-Name: Sharon Brizinov, Email: sharonbrizinov at gmail .com
-Name: Roie Koper,      Email: roiekoper at gmail .com
+- `Sharon Brizinov`   (sharonbrizinov at gmail .com)
+- `Roie Koper`        (roiekoper at gmail .com)
 
 ### Game Mechanics
 1. **Pre game**
