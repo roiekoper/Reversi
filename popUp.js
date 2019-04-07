@@ -39,7 +39,13 @@ export default class PopUp {
         this.element.appendChild(titleElement);
         this.element.appendChild(statisticsElement);
 
-        new Statistics(this.element, this.statistics); // render statistics container before button
+        // render statistics container before button
+        for (let index = 0 ; index < this.statistics.length; index++) {
+            let playerNameElement = document.createElement('h2');
+            playerNameElement.textContent = `${this.players[index].name} (${this.players[index].color})`;
+            this.element.appendChild(playerNameElement);
+            new Statistics(this.element, this.statistics[index]); 
+        }
 
         this.element.appendChild(newGameContainerElement);
         this.gameElement.insertBefore(this.element,this.gameElement.firstChild);

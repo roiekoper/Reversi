@@ -148,10 +148,11 @@ export default class Game {
         this.timer.pause();
 
         let endMessage = `${currentPlayer.name} (${currentPlayer.color}) resigned.<br>The winner is ${this.winnerPlayer.name} (${this.winnerPlayer.color})!`;
+        
         new PopUp(
             this.gameElement,
             `<p>${endMessage}</p> `,
-            this.statistics,
+            this.createStatisticsArrayForPlayers(),
             this.reset,
             this.players
         );
@@ -394,21 +395,21 @@ export default class Game {
 // Check again if the game ended after the last turn
         if (this.isGameEnded()) {
             // Game ended
-            this.ended = true
-            this.board.hidePotentialGainElements(true)
-            this.setWinnerPlayerWithMoreDisks()
-            this.timer.pause()
+            this.ended = true;
+            this.board.hidePotentialGainElements(true);
+            this.setWinnerPlayerWithMoreDisks();
+            this.timer.pause();
 
             // Get end message
             if (this.winnerPlayer != null) {
                 endMessage = `The winner is ${this.winnerPlayer.name} (${this.winnerPlayer.color})!`
             } else {
-                endMessage = `It's a tie!`
+                endMessage = `It's a tie!`;
             }
             new PopUp(
               this.gameElement,
               `<p>${endMessage}</p> `,
-              this.statistics,
+              this.createStatisticsArrayForPlayers(),
               this.reset,
               this.players
             )
@@ -421,17 +422,31 @@ export default class Game {
         }
     }
 
+    createStatisticsArrayForPlayers = () => {
+        let arrayStatistics = [];
+        this.players.forEach(player => {
+            let stats = new Statistics();
+            this.updateStatistics(stats, player);
+            arrayStatistics.push(stats);
+        });
+        return arrayStatistics;
+    };
+
+    updateStatistics = (statistics, player) => {
+        if (statistics) {
+            statistics.updateValueByKey('playTurnCounter', this.playerTurnCounter);
+            statistics.updateValueByKey('playerTurnedDiskCounter', player.currentScore);
+            statistics.updateValueByKey('avgPlayerTurnTime', player.getStatisticsAvgTimeForMove().toFixed(2));
+            statistics.updateValueByKey('playerCounter2DisksLeft', player.getStatistics2Disks());
+        }
+    };
+
     updatePlayerItems = () => {
         // Player name
         this.playerNameElement.textContent = `${this.getCurrentPlayer().name} (${this.getCurrentPlayer().color})`;
 
         // Stats
-        if (this.statistics) {
-            this.statistics.updateValueByKey('playTurnCounter', this.playerTurnCounter);
-            this.statistics.updateValueByKey('playerTurnedDiskCounter', this.getCurrentPlayer().currentScore);
-            this.statistics.updateValueByKey('avgPlayerTurnTime', this.getCurrentPlayer().getStatisticsAvgTimeForMove().toFixed(2));
-            this.statistics.updateValueByKey('playerCounter2DisksLeft', this.getCurrentPlayer().getStatistics2Disks());
-        }
+        this.updateStatistics(this.statistics, this.getCurrentPlayer());
 
         // Update learning mode
         this.checkboxLearningModeUpdate();

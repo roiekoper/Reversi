@@ -1,5 +1,5 @@
 export default class Statistics {
-    constructor(detailsContainerElement, existingStatistics = null) {
+    constructor(detailsContainerElement = null, existingStatistics = null) {
         this.detailsContainerElement = detailsContainerElement;
         this.playTurnCounter = 0;
         this.playTurnCounterElement = null;
@@ -13,7 +13,9 @@ export default class Statistics {
 
         this.updateWithExistingStatistics();
 
-        this.render();
+        if (detailsContainerElement != null) {
+          this.render();
+        }
     }
 
   render = () => {
@@ -70,7 +72,9 @@ export default class Statistics {
 
     updateValueByKey = (key, value) => {
         this[key] = value;
-        this[`${key}Element`].innerHTML = value;
+        if (this[`${key}Element`]) {
+          this[`${key}Element`].innerHTML = value;
+        }
     };
 
     reset = () => {
