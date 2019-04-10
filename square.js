@@ -62,7 +62,7 @@ export default class Square {
         this.squareElement.appendChild(this.potentialGainElement);
 
         // Set font size
-        this.potentialGainElement.style.fontsize = `${Math.min(25 + styleNum * 7, 60)}px`;
+        this.potentialGainElement.style.fontsize = `${Math.min(25 + styleNum * 7, 50)}px`;
         this.potentialGainElement.style.opacity = Math.min(0.2 * styleNum, 1.0);
         this.potentialGainElement.innerHTML = `${num}`;
 

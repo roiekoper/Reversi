@@ -18,7 +18,7 @@ export default class Board {
         this.boardElement = document.createElement('div');
         this.boardElement['data-id'] = this.id;
         this.boardElement.className = 'board';
-        this.boardElement.style = `grid-template-columns: repeat(${this.size}, 60px);`;
+        this.boardElement.style = `grid-template-columns: repeat(${this.size}, 50px);`;
 
         Array.from({length: this.size}, (_, row) => {
             this.squares[row] = [];
