@@ -1,3 +1,4 @@
+
 # Reversi
 ### Students
 - `Sharon Brizinov`   (sharonbrizinov at gmail .com) (ID in PDF file)
@@ -24,12 +25,10 @@
 3. Board Size
 
 ### How to run the project
-Since our project is constructed of multiple files (modules) and modern browsers are equipped with CORS technology, one will need to do one of the following in order to run the project:
+Since our project is constructed of multiple files (modules) and modern browsers are equipped with CORS technology, one will need to do the following:
 
 1. Use Ofer's WebPack template as follows:
-a. Copy the WebPack template files one directory above the project `src` directory.
-b. Run `npm install` command to load all npm modules.
-c. Run `npm run build` to pack all the modules into a single file `./public/index.js` which can be accessed locally and statically.
-d. Go to the new `public` directory and run `index.html`
-
-2. OR serve files over HTTP server (e.g. by running `python -m SimpleHTTPServer 80` in the project directory and go to `localhost:80`).
+    a. Copy the WebPack template files one directory above the project `src` directory.
+    b. Run `npm install` command to load all npm modules.
+    c. Run `npm run build` to pack all the modules into a single file.
+    d. Go to the new `public` directory and run `index.html` in the browser.
