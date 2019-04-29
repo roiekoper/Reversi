@@ -23,13 +23,6 @@
     - Implemented for every player separately
 3. Board Size
 
-
-### Completed Bonuses
-1. New Game
-2. Training Mode 
-    - Implemented for every player separately
-3. Board Size
-
 ### How to run the project
 Since our project is construct of multiple files (modules) and modern browsers are equipped with CORS technology, one will need to do one of the following in order to run the project:
 1. Serve over HTTP server (e.g. by running `python -m SimpleHTTPServer 80` in the project directory and go to `localhost:80`).
