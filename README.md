@@ -6,7 +6,7 @@
 
 ### Game Mechanics
 1. **Pre game**
-    - `script.js` will init the game after choosing board size.
+    - `index.js` will init the game after choosing board size.
 2. **Game**
     - `render` function is responsible to render each HTML object to the DOM.
     - `placeMoveAtSquare` function will collect into `potentialSquareMoves` the squares that will be affected if current user will place the disk on the given square. 
