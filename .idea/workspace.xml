@@ -2,123 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4814ec31-cb8b-4d29-90ae-d5ad7a2e28bd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@babel/helper-function-name/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@babel/helper-function-name/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@babel/helper-member-expression-to-functions/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@babel/helper-member-expression-to-functions/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@babel/helper-optimise-call-expression/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@babel/helper-optimise-call-expression/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@babel/helper-plugin-utils/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@babel/helper-plugin-utils/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@babel/helper-replace-supers/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@babel/helper-replace-supers/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@babel/helper-split-export-declaration/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@babel/helper-split-export-declaration/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@babel/plugin-proposal-class-properties/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@babel/plugin-proposal-class-properties/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/browserslist/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/browserslist/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/browserslist/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/browserslist/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/browserslist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/browserslist/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/browserslist/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/browserslist/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/caniuse-lite/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/caniuse-lite/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/electron-to-chromium/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/electron-to-chromium/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/fsevents.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/fsevents.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/lib/binding/Release/node-v57-darwin-x64/fse.node" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/lib/binding/Release/node-v57-darwin-x64/fse.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/abbrev/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/abbrev/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ansi-regex/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ansi-regex/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/aproba/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/aproba/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/are-we-there-yet/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/are-we-there-yet/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/balanced-match/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/balanced-match/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/brace-expansion/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/brace-expansion/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/chownr/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/chownr/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/code-point-at/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/code-point-at/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/concat-map/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/concat-map/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/console-control-strings/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/console-control-strings/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/core-util-is/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/core-util-is/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/debug/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/debug/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/deep-extend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/deep-extend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/delegates/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/delegates/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/detect-libc/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/detect-libc/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/fs-minipass/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/fs-minipass/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/fs.realpath/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/fs.realpath/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/gauge/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/gauge/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/glob/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/glob/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/has-unicode/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/has-unicode/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/iconv-lite/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/iconv-lite/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ignore-walk/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ignore-walk/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/inflight/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/inflight/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/inherits/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/inherits/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ini/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ini/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/is-fullwidth-code-point/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/is-fullwidth-code-point/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/isarray/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/isarray/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minimatch/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minimatch/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minimist/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minimist/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minipass/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minipass/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minizlib/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/minizlib/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/mkdirp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/mkdirp/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ms/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/ms/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/needle/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/needle/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/node-pre-gyp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/node-pre-gyp/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/nopt/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/nopt/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/npm-bundled/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/npm-bundled/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/npm-packlist/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/npm-packlist/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/npmlog/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/npmlog/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/number-is-nan/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/number-is-nan/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/object-assign/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/object-assign/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/once/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/once/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/os-homedir/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/os-homedir/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/os-tmpdir/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/os-tmpdir/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/osenv/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/osenv/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/path-is-absolute/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/path-is-absolute/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/process-nextick-args/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/process-nextick-args/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/rc/node_modules/minimist/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/rc/node_modules/minimist/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/rc/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/rc/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/readable-stream/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/readable-stream/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/rimraf/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/rimraf/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/safe-buffer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/safe-buffer/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/safer-buffer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/safer-buffer/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/sax/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/sax/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/semver/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/semver/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/set-blocking/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/set-blocking/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/signal-exit/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/signal-exit/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/string-width/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/string-width/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/string_decoder/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/string_decoder/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/strip-ansi/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/strip-ansi/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/strip-json-comments/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/strip-json-comments/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/tar/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/tar/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/util-deprecate/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/util-deprecate/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/wide-align/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/wide-align/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/wrappy/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/wrappy/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/node_modules/yallist/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/node_modules/yallist/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fsevents/src/constants.cc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/fsevents/src/constants.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/globals/globals.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/globals/globals.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/globals/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/globals/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lcid/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/lcid/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/node-releases/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/node-releases/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/popUp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sounds/badmove.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sounds/diskdown.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/square.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/board.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/board.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/player.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/popUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/popUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/script.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sounds/badmove.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sounds/diskdown.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/square.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/square.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/statistics.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/timer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/timer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/statistics.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/timer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.js" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/public/" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -147,11 +31,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="64" column="2" selection-start-line="64" selection-start-column="2" selection-end-line="64" selection-end-column="2" />
+            <state relative-caret-position="263">
+              <caret line="404" column="22" selection-start-line="404" selection-start-column="22" selection-end-line="404" selection-end-column="22" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/popUp.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -201,6 +94,9 @@
       <find>sound</find>
       <find>.dest</find>
       <find>this.board</find>
+      <find>popup</find>
+      <find>reset</find>
+      <find>new PopUp</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -295,7 +191,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1556552257344</updated>
-      <workItem from="1556552258783" duration="5186000" />
+      <workItem from="1556552258783" duration="5950000" />
     </task>
     <task id="LOCAL-00001" summary="Add Ofer template to integrate with webpack.">
       <created>1556659395993</created>
@@ -304,11 +200,18 @@
       <option name="project" value="LOCAL" />
       <updated>1556659395993</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fix project working with webpack.">
+      <created>1556693816902</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1556693816902</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5186000" />
+    <option name="totallyTimeSpent" value="5950000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="959" extended-state="0" />
@@ -316,15 +219,15 @@
     <layout>
       <window_info id="npm" side_tool="true" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24954791" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24954791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="ReactNative" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" weight="0.32938388" />
+      <window_info anchor="bottom" id="Version Control" visible="true" weight="0.32938388" />
       <window_info anchor="bottom" id="Terminal" weight="0.32938388" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32938388" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32938388" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -340,7 +243,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add Ofer template to integrate with webpack." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Ofer template to integrate with webpack." />
+    <MESSAGE value="Fix project working with webpack." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix project working with webpack." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/script.js">
@@ -497,10 +401,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/popUp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="64" column="2" selection-start-line="64" selection-start-column="2" selection-end-line="64" selection-end-column="2" />
+        <state relative-caret-position="263">
+          <caret line="404" column="22" selection-start-line="404" selection-start-column="22" selection-end-line="404" selection-end-column="22" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
