@@ -6,23 +6,23 @@ export default class Timer {
         this.interval = setInterval(this.timeHandler.bind(this), 1000); // tick every 1 sec
     }
 
-    timeHandler = () => {
+    timeHandler() {
         this.seconds++;
         this.minElement.textContent = `${pad(parseInt(this.seconds / 60))}`;
         this.secondsElement.textContent = `${pad(parseInt(this.seconds % 60))}`;
     };
 
-    reset = () => {
+    reset() {
         this.seconds = -1;
         this.timeHandler();
         this.interval = setInterval(this.timeHandler.bind(this), 1000); // tick every 1 sec
     };
 
-    pause = () => {
+    pause () {
         window.clearInterval(this.interval);
     };
 
-    render = () => {
+    render () {
         const timeContainer = document.createElement('div');
         timeContainer.className = 'time-container';
 

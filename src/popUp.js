@@ -51,7 +51,7 @@ export default class PopUp {
         this.gameElement.insertBefore(this.element,this.gameElement.firstChild);
     }
 
-    destroy = () => {
+    destroy() {
       this.overlayElement.remove();
       this.element.remove();
     }

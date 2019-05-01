@@ -1,3 +1,4 @@
+import "./style.css";
 import Game from './game.js'
 import Player from './player.js'
 
