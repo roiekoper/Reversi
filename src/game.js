@@ -150,7 +150,7 @@ export default class Game {
       this.gameElement,
       `<p>${endMessage}</p> `,
       this.createStatisticsArrayForPlayers(),
-      this.reset,
+      this.reset.bind(this),
       this.players
     )
 
@@ -402,7 +402,7 @@ export default class Game {
         this.gameElement,
         `<p>${endMessage}</p> `,
         this.createStatisticsArrayForPlayers(),
-        this.reset,
+        this.reset.bind(this),
         this.players
       )
     } else {
