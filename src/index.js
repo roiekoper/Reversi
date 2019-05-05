@@ -1,9 +1,8 @@
-import "./style.css";
 import Game from './game.js'
 import Player from './player.js'
 
 // We will add a list selector to 'pre-game-container' and evetually will remove it
-function preGameSettings(){
+export function preGameSettings(){
     let labelChooseBoardSizeElement = document.createElement('h2');
     labelChooseBoardSizeElement.className = 'pre-game';
     labelChooseBoardSizeElement.id = 'pre-game-h2';
@@ -41,7 +40,5 @@ function startGame() {
 
     const player1 = new Player(Game.counter, 'player 1', 'black', true, true);
     const player2 = new Player(Game.counter, 'player 2', 'white', true, true);
-    const game = new Game([player1, player2], boardSize);
+    new Game([player1, player2], boardSize);
 }
-
-preGameSettings();

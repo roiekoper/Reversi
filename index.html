@@ -2,11 +2,25 @@
 <html>
 <head>
     <title>Reversi</title>
+    <link rel="stylesheet" href="src/style.css">
 </head>
 
 <body>
     <h1>Reversi Game</h1>
     <div class="pre-game-container"></div>
     <div class="games-container"></div>
+    <template id="board">
+        <div class="board">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        </div>
+    </template>
+    <script type="module">
+        import { preGameSettings } from './src/index.js';
+        preGameSettings();
+    </script>
 </body>
 </html>
